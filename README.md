@@ -6,8 +6,7 @@ HexaGo Personalized Matcher is a web-based platform designed for universities to
 - User registration and authentication
 - Profile management
 - Match suggestions based on user preferences
-- Interactive UI with a sidebar navigation menu
-- Integration with a recommendation model
+- Recommendation model Implementation
 
 ## How to Run the Project
 
