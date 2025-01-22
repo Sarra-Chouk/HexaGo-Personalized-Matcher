@@ -174,7 +174,7 @@ app.post("/sign-up-university", async (req, res) => {
     console.log(formData)
     // Step 2: Loop through formData to extract program, field, and languages per index
     let index = 1;
-    while (formData[`program${index}`] !== undefined){
+    while (formData && formData[`program${index}`] !== undefined){
         const program = formData[`program${index}`];
         const field = formData[`field${index}`];
 
