@@ -16,6 +16,7 @@ HexaGo Personalized Matcher is a web-based platform that connects users based on
 2. Install the required Python packages using the requirements.txt file:
     ```bash
     pip install -r requirements.txt
+3. Run the cells in the `main.ipynb` file to initialize and execute the recommendation model.
 
 ### Step 2: Set Up the Website
 1. Open a terminal and navigate to the project directory.
