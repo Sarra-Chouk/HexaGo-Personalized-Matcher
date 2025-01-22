@@ -1,0 +1,81 @@
+<style>
+    .body {
+        height: 100%;
+    }
+
+    .alert {
+        width: 300px;
+    }
+</style>
+
+<body class="bg-light d-flex flex-column min-vh-100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card-group d-block d-md-flex row">
+                    <div class="card col-md-8 p-5 mb-0 fixed">
+                        <div class="card-body">
+                            {{#if message}}
+                            <div class="alert text-center {{#ifEquals type 
+                                'success'}}alert-success{{else}}alert-danger{{/ifEquals}}">
+                                {{message}}
+                            </div>
+                            {{/if}}
+                            <h1>Login</h1>
+                            <p class="text-medium-emphasis">Sign In to your account</p>
+                            <input type="hidden" name="type" value="{{type}}" />
+                            <form action="/login" method="POST">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <svg class="icon">
+                                            <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-user"></use>
+                                        </svg>
+                                    </span>
+                                    <input class="form-control" type="text" name="email" placeholder="Email" required>
+                                </div>
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-eye-slash" id="togglePassword"></i>
+                                    </span>
+                                    <input class="form-control" type="password" name="password" placeholder="Password"
+                                        id="password" required>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <button class="btn btn-primary px-4" type="submit">Login</button>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <a href="/reset-password" class="btn btn-link px-0">Forgot password?</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card col-md-4 text-white bg-primary py-5">
+                        <div class="card-body d-flex justify-content-center align-items-center">
+                            <div class="text-center">
+                                <h2>Sign up</h2>
+                                <p>Don’t have an account? Join GlobeLingo and start learning today!</p>
+                                <a href="/index" class="btn btn-lg btn-outline-light mt-3">Register Now!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+
+        togglePassword.addEventListener('click', () => {
+            // Toggle the type attribute
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            // Toggle the eye icon class
+            togglePassword.classList.toggle('bi-eye');
+            togglePassword.classList.toggle('bi-eye-slash');
+        });
+    </script>
+</body>

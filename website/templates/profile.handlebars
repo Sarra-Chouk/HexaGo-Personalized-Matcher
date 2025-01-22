@@ -1,0 +1,176 @@
+<style>
+    body {
+        display: flex;
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    .body {
+        height: 100%;
+      }
+    
+      .logout-button {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        padding: 8px 10px;
+        font-size: 12px;
+        line-height: 0.5;
+      }
+    
+      .sidebar-nav {
+        height: 100%;
+        background-color: #f8f9fa;
+        padding-top: 20px;
+      }
+    
+      .sidebar-nav .nav-item .nav-link {
+        color: #495057;
+        text-align: left;
+        text-decoration: none;
+        padding: 10px 20px;
+        display: block;
+        border-radius: 5px;
+        width: 200px;
+      }
+    
+      .sidebar-nav .nav-item .nav-link:hover {
+        background-color: #efefef;
+        color: #495057;
+      }
+    
+      .sidebar-nav .nav-item .active {
+        background-color: #545cf9;
+        color: white;
+      }
+    
+
+    .main-content {
+        margin-left: 250px;
+        padding: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    .profile-container {
+        width: 600px;
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+
+    .profile-picture {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin-bottom: 20px;
+        border: 3px solid #545cf9;
+        object-fit: cover;
+    }
+
+    .section-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #545cf9;
+        border-bottom: 2px solid #efefef;
+        padding-bottom: 5px;
+    }
+
+    .profile-info {
+        text-align: left;
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    .profile-info p {
+        margin: 8px 0;
+    }
+
+    .profile-info span {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .badge-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-start;
+        margin-top: 10px;
+    }
+
+    .badge {
+        padding: 5px 10px;
+        border-radius: 20px;
+        background-color: #e7eaf6;
+        font-size: 14px;
+        font-weight: bold;
+        color: #545cf9;
+        border: 1px solid #d1d5db;
+    }
+
+    .profile-container {
+        width: 1000px
+    }
+</style>
+
+<body>
+    <form action="/logout" method="GET">
+        <button class="btn btn-danger logout-button" type="submit">
+          <i class="bi bi-box-arrow-right me-1"></i> Logout
+        </button>
+      </form>
+      <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
+        <li class="nav-item"><a class="nav-link" href="/profile"><i class="bi bi-person me-2"></i>Profile</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/myMatches"><i
+              class="bi bi-speedometer2 me-2"></i>My Matches</a></li>
+      </ul>
+      </div>
+
+    <div class="main-content">
+        <div class="profile-container">
+            <h2 class="profile-username">{{username}}</h2>
+            <p class="profile-email">Email: {{email}}</p>
+
+            <div class="section-title">Personal Information</div>
+            <div class="profile-info">
+                <p><span>Nationality:</span> {{nationality}}</p>
+                <p><span>Country:</span> {{country}}</p>
+                <p><span>City:</span> {{city}}</p>
+            </div>
+
+            <div class="section-title">Languages</div>
+            <div class="profile-info">
+                <p><span>Languages Known:</span></p>
+                <div class="badge-container">
+                    {{#each knownLanguages}}
+                    <div class="badge">{{this}}</div>
+                    {{/each}}
+                </div>
+            </div>
+
+            <div class="section-title">Needs & Requirements</div>
+            <div class="profile-info">
+                <p><span>Needs:</span></p>
+                <div class="badge-container">
+                    {{#each needs}}
+                    <div class="badge">{{this}}</div>
+                    {{/each}}
+                </div>
+            </div>
+
+            <div class="section-title">Education</div>
+            <div class="profile-info">
+                <p><span>Level of Education:</span> {{educationLevel}}</p>
+                <p><span>Field of Study:</span> {{studyField}}</p>
+                <p><span>GPA:</span> {{gpa}}</p>
+            </div>
+        </div>
+    </div>
+</body>
