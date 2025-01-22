@@ -22,3 +22,7 @@ HexaGo Personalized Matcher is a web-based platform that connects users based on
 2. Install the required Node.js dependencies:
    ```bash
    npm install
+3. Open your web browser and go to 
+    ```bash
+    localhost:8000/index
+
