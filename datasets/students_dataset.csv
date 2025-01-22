@@ -1,0 +1,11 @@
+First Name,Last Name,Gender,Nationality,Country of Residence,City of Residence,Language Proficiency,Academic Level,Study Field,GPA,Financial Need,Accessibility Need,Counseling Need,Accommodation Need
+Ali,Hassan,Male,Palestinian,Qatar,Duhail,"Arabic, English",Undergraduate,Computer Science,3.5,Yes,Yes,No,Yes
+Sara,Mohamed,Female,Syrian,Qatar,Duhail,Arabic,Undergraduate,Media,3.8,Yes,No,Yes,Yes
+Amine,Youssef,Male,Syrian,Canada,Toronto,"English, French",Graduate,Business,3.6,Yes,No,Yes,No
+Mei,Omar,Female,Palestinian,Germany,Munich,"Arabic, English",Graduate,Chemistry,3.7,Yes,No,Yes,Yes
+Nour,Ibrahim,Female,Sudanese,England,London,"Arabic, English",Undergraduate,Medicine,3.8,Yes,No,No,Yes
+Aisha,Ahmed,Female,Sudanese,England,London,"Arabic, English",Undergraduate,Engineering,3.5,Yes,No,No,No
+Khalid,Moussa,Male,Syrian,Turkey,Instanbul,"Arabic, English",Graduate,Law,3.4,Yes,No,Yes,Yes
+Fatima,Anouar,Female,Syrian,Turkey,Instanbul,"Araabic, English",Undergraduate,Nursing,3.9,Yes,No,No,No
+Adham,Mohamed,Male,Palestinian,Canada,Toronto,"Arabic, English",Undergraduate,Engineering,3.6,Yes,No,No,Yes
+Ahmed,Karim,Male,Palestinian,Qatr,AlRayyan,"Arabic, English",Undergraduate,Politics,3.5,Yes,No,No,Yes
