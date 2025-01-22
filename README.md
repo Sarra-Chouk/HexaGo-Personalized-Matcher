@@ -1,6 +1,6 @@
 # HexaGo Personalized Matcher
 
-HexaGo Personalized Matcher is a web-based platform that connects users based on their preferences, needs, and personal details. The project consists of a user-friendly frontend and a backend powered by a machine learning model to suggest personalized matches.
+HexaGo Personalized Matcher is a web-based platform designed for universities to connect with students who fit their specific criteria. The project features a user-friendly frontend and a backend powered by a machine learning model that provides personalized recommendations for universities to identify suitable students based on preferences, needs, and qualifications. It also facilitates connecting these students with universities to explore educational opportunities and foster academic growth.
 
 ## Features
 - User registration and authentication
