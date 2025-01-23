@@ -1,17 +1,12 @@
 <style>
-    body {
-        display: flex;
-        margin: 0;
-        font-family: Arial, sans-serif;
+    .body {
+        height: 100%;
     }
 
     .sidebar-nav {
-        width: 250px;
+        height: 100%;
         background-color: #f8f9fa;
         padding-top: 20px;
-        position: fixed;
-        height: 100vh;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     }
 
     .sidebar-nav .nav-item .nav-link {
@@ -21,13 +16,12 @@
         padding: 10px 20px;
         display: block;
         border-radius: 5px;
-        margin-bottom: 10px;
-        transition: background-color 0.3s ease, color 0.3s ease;
+        width: 200px;
     }
 
     .sidebar-nav .nav-item .nav-link:hover {
         background-color: #efefef;
-        color: #545cf9;
+        color: #495057;
     }
 
     .sidebar-nav .nav-item .active {
@@ -37,16 +31,13 @@
 
     .main-content {
         margin-left: 250px;
-        padding: 40px;
-        display: flex;
+        flex: 1;
         align-items: center;
         justify-content: center;
-        background-color: #f8f9fa;
-        min-height: 100vh;
     }
 
     .profile-container {
-        width: 600px;
+        width: 400px;
         background: white;
         border-radius: 15px;
         padding: 30px;
@@ -54,102 +45,99 @@
         text-align: center;
     }
 
-    .profile-picture {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        margin-bottom: 20px;
-        border: 3px solid #545cf9;
-        object-fit: cover;
-    }
-
-    .section-title {
-        font-size: 20px;
+    .profile-username {
+        font-size: 24px;
         font-weight: bold;
-        margin-bottom: 15px;
-        color: #545cf9;
-        border-bottom: 2px solid #efefef;
-        padding-bottom: 5px;
+        margin-bottom: 10px;
     }
 
-    .profile-info {
-        text-align: left;
+    .profile-email {
         font-size: 16px;
-        margin-bottom: 15px;
+        color: #555;
+        margin-bottom: 20px;
     }
 
-    .profile-info p {
-        margin: 8px 0;
-    }
-
-    .profile-info span {
-        font-weight: bold;
-        color: #333;
-    }
-
-    .badge-container {
+    .alert-container {
         display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: flex-start;
-        margin-top: 10px;
+        align-items: center;
+        justify-content: center;
+        height: 100vh; 
+    }
+
+    .alert {
+        max-width: 500px;
+        text-align: center;
+        padding: 20px;
+        border-radius: 10px;
+        font-size: 18px;
     }
 
     .badge {
+        display: inline-block;
         padding: 5px 10px;
-        border-radius: 20px;
-        background-color: #e7eaf6;
+        border-radius: 10px;
+        margin: 5px;
         font-size: 14px;
-        font-weight: bold;
-        color: #545cf9;
-        border: 1px solid #d1d5db;
+    }
+
+    .badge.bg-info {
+        background-color: #a2a7ff;
+        color: #fff;
+    }
+
+    .badge.bg-success {
+        background-color: #a2a7ff;
+        color: #fff;
     }
 </style>
 
 <body>
     <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
-        <li class="nav-item"><a class="nav-link active" href="/profile"><i class="bi bi-person me-2"></i>Profile</a></li>
-        <li class="nav-item"><a class="nav-link" href="/myMatches"><i class="bi bi-speedometer2 me-2"></i>My Matches</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/profile"><i class="bi bi-person me-2"></i>Profile</a>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="/myMatches"><i class="bi bi-speedometer2 me-2"></i>My Matches</a>
+        </li>
     </ul>
-
+    </div>
     <div class="main-content">
-        <div class="profile-container">
-            <h2 class="profile-username">{{username}}</h2>
-            <p class="profile-email">Email: {{email}}</p>
-
-            <div class="section-title">Personal Information</div>
-            <div class="profile-info">
-                <p><span>Nationality:</span> {{nationality}}</p>
-                <p><span>Country:</span> {{country}}</p>
-                <p><span>City:</span> {{city}}</p>
-            </div>
-
-            <div class="section-title">Languages</div>
-            <div class="profile-info">
-                <p><span>Languages Known:</span></p>
-                <div class="badge-container">
-                    {{#each knownLanguages}}
-                    <div class="badge">{{this}}</div>
-                    {{/each}}
-                </div>
-            </div>
-
-            <div class="section-title">Needs & Requirements</div>
-            <div class="profile-info">
-                <p><span>Needs:</span></p>
-                <div class="badge-container">
-                    {{#each needs}}
-                    <div class="badge">{{this}}</div>
-                    {{/each}}
-                </div>
-            </div>
-
-            <div class="section-title">Education</div>
-            <div class="profile-info">
-                <p><span>Level of Education:</span> {{educationLevel}}</p>
-                <p><span>Field of Study:</span> {{studyField}}</p>
-                <p><span>GPA:</span> {{gpa}}</p>
-            </div>
+        {{#if isBlocked}}
+        <div class="alert alert-danger text-center">
+            {{message}}
         </div>
+        {{else}}
+        <div class="profile-container">
+            <div class="profile-username">{{username}}</div>
+            <div class="profile-email"><strong>Email:</strong> {{email}}</div>
+            <div><strong>Nationality:</strong> {{nationality}}</div>
+            <div><strong>Country:</strong> {{country}}</div>
+            <div><strong>City:</strong> {{city}}</div>
+            
+            <div class="mt-3"><strong>Languages Known:</strong></div>
+            <div>
+                {{#if knownLanguages}}
+                {{#each knownLanguages}}
+                <span class="badge bg-info text-dark me-1">{{this}}</span>
+                {{/each}}
+                {{else}}
+                <div>No languages specified.</div>
+                {{/if}}
+            </div>
+            
+            <div class="mt-3"><strong>Needs:</strong></div>
+            <div>
+                {{#if needs}}
+                {{#each needs}}
+                <span class="badge bg-success text-white me-1">{{this}}</span>
+                {{/each}}
+                {{else}}
+                <div>No specific needs mentioned.</div>
+                {{/if}}
+            </div>
+
+            <div class="mt-3"><strong>Study Field:</strong> {{studyField}}</div>
+            <div><strong>Education Level:</strong> {{educationLevel}}</div>
+            <div><strong>GPA:</strong> {{gpa}}</div>
+        </div>
+        {{/if}}
     </div>
 </body>
