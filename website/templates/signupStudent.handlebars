@@ -1,387 +1,383 @@
-<style>
-    .dropdown-menu {
-        max-height: 250px;
-        overflow-y: auto;
-        padding: 10px;
+<!DOCTYPE html>
+<html lang="en">
 
-    }
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Signup</title>
 
-    .form-check {
-        margin-bottom: 8px;
-    }
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" />
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: auto;
+        }
 
-    .form-label {
-        display: block;
-        text-align: left;
-    }
+        .form-container {
+            background-color: #fff;
+            color: #333;
+            min-height: 95vh;
+            padding: 2rem;
+            margin-top: 85%;
+            margin-bottom: 4%;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 900px;
+            overflow-y: auto;
+        }
 
-    .alert {
-        width: 500px;
-    }
-</style>
+        .form-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-<body class="bg-light d-flex flex-column min-vh-100">
-    <div class="bg-light min-vh-100 d-flex flex-row">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12" >
-                    <div class="card mb-4 mt-4" style="min-width: 500px;">
-                        <div class="card-body p-4">
-                            <h1>Register</h1>
-                            <p class="text-muted">Create your account</p>
-                            {{#if message}}
-                            <div class="alert text-center {{#ifEquals type 
-                                'success'}}alert-success{{else}}alert-danger{{/ifEquals}}">
-                                {{message}}
-                            </div>
-                            {{/if}}
-                            <form action="/sign-up-student" method="POST" enctype="multipart/form-data">
-                                <input type="hidden" name="csrfToken" value="{{csrfToken}}" />
-                                <div class="mb-3">
-                                    <label for="username" class="form-label left-align">Name</label>
-                                    <input class="form-control" type="text" id="username" name="username"
-                                        placeholder="Enter your full name" value="{{username}}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label left-align">Email</label>
-                                    <input class="form-control" type="text" id="email" name="email"
-                                        placeholder="Enter your email" value="{{email}}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label left-align">Password</label>
+        .form-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
 
-                                    <div class="input-group mb-4">
+        .btn-primary {
+            background-color: #6a11cb;
+            border: none;
+        }
 
-                                        <span class="input-group-text">
-                                            <i class="bi bi-eye-slash" id="togglePassword"></i>
-                                        </span>
-                                        <input class="form-control" type="password" name="password"
-                                            placeholder="Enter your password" id="password" required>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="confirmedPassword" class="form-label left-align">Confirm
-                                        Password</label>
+        .btn-primary:hover {
+            background-color: #2575fc;
+        }
 
-                                    <div class="input-group mb-4">
-                                        <span class="input-group-text">
-                                            <i class="bi bi-eye-slash" id="toggleConfirmedPassword"></i>
-                                        </span>
+        .form-text a {
+            color: #2575fc;
+            text-decoration: none;
+        }
 
-                                        <input class="form-control" type="password" id="confirmedPassword"
-                                            name="confirmedPassword" placeholder="Repeat your password" required>
-                                    </div>
-                                </div>
+        .input-group-text {
+            cursor: pointer;
+        }
 
-                                <div class="mb-3">
-                                    <label for="category" class="form-label left-align">Nationality</label>
-                                    <div class="dropdown">
-                                        <button class="btn btn-primary dropdown-toggle w-100" type="button"
-                                            id="dropdownMenuNationalities" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                            Select Nationality
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuNationalities">
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="radio"
-                                                        value="Palestinian" id="nationalityPalestinian"
-                                                        name="nationality"><label class="form-radio-label"
-                                                        for="nationalityPalestinian">Palestinian</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="radio"
-                                                        value="Sudanese" id="nationalitySudanese"
-                                                        name="nationality"><label class="form-radio-label"
-                                                        for="nationalitySudanese">Sudanese</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="radio"
-                                                        value="Syrian" id="nationalitySyrian"
-                                                        name="nationality"><label class="form-radio-label"
-                                                        for="nationalitySyrian">Syrian</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="radio"
-                                                        value="Afghani" id="nationalityAfghani"
-                                                        name="nationality"><label class="form-radio-label"
-                                                        for="nationalityAfghani">Afghani</label></div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+        .dropdown-container {
+            position: relative;
+            overflow: visible;
+        }
 
-                                <div class="mb-3">
-                                    <label for="dropdownCountries" class="form-label left-align">Country of Residence</label>
-                                    <select class="form-select" id="dropdownCountries" name="country" required>
-                                        <option value="">Select a country</option>
-                                        <option value="Qatar">Qatar</option>
-                                        <option value="United States">United States</option>
-                                        <option value="England">England</option>
-                                        <option value="Turkey">Turkey</option>
-                                        <option value="Canada">Canada</option>
-                                        <option value="Germany">Germany</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label for="dropdownCities" class="form-label left-align">City</label>
-                                    <select class="form-select" id="dropdownCities" name="city" required>
-                                        <option value="">Select a country first</option>
-                                    </select>
-                                </div>                                
+        .custom-multiselect {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            min-height: 38px;
+            align-items: center;
+            padding: 5px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            background-color: #fff;
+            cursor: pointer;
+        }
 
-                                <div class="mb-3">
-                                    <label for="KnownLanguages" class="form-label left-align">Languages You Know</label>
-                                    <div class="dropdown">
-                                        <button class="btn btn-primary dropdown-toggle w-100" type="button"
-                                            id="dropdownMenuKnownLanguages" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                            Select Languages
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuKnownLanguages">
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="checkbox"
-                                                        value="English" id="knownLanguageEnglish"
-                                                        name="knownLanguages"><label class="form-check-label"
-                                                        for="languageEnglishKnown">English</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="checkbox"
-                                                        value="Arabic" id="languageArabicKnown"
-                                                        name="knownLanguages"><label class="form-check-label"
-                                                        for="languageArabicKnown">Arabic</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="checkbox"
-                                                        value="Spanish" id="languageSpanishKnown"
-                                                        name="knownLanguages"><label class="form-check-label"
-                                                        for="languageSpanishKnown">Spanish</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="checkbox"
-                                                        value="French" id="languageFrenchKnown"
-                                                        name="knownLanguages"><label class="form-check-label"
-                                                        for="languageFrenchKnown">French</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="checkbox"
-                                                        value="German" id="languageGermanKnown"
-                                                        name="knownLanguages"><label class="form-check-label"
-                                                        for="languageGermanKnown">German</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="checkbox"
-                                                        value="Chinese" id="languageChineseKnown"
-                                                        name="knownLanguages"><label class="form-check-label"
-                                                        for="languageChineseKnown">Chinese</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="checkbox"
-                                                        value="Urdu" id="languageUrduKnown"
-                                                        name="knownLanguages"><label class="form-check-label"
-                                                        for="languageUrduKnown">Urdu</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="checkbox"
-                                                        value="Hindi" id="languageHindiKnown"
-                                                        name="knownLanguages"><label class="form-check-label"
-                                                        for="languageHindiKnown">Hindi</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="checkbox"
-                                                        value="Russian" id="languageRussianKnown"
-                                                        name="knownLanguages"><label class="form-check-label"
-                                                        for="languageRussianKnown">Russian</label></div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+        .custom-multiselect .selected-item {
+            background: #6a11cb;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
 
-                                <div class="mb-3">
-                                    <label for="needs" class="form-label left-align">Necessities and Requirements</label>
-                                    <div class="dropdown">
-                                        <button class="btn btn-primary dropdown-toggle w-100" type="button"
-                                            id="dropdownNeeds" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                            Select Needs
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownNeeds">
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="checkbox"
-                                                        value="None" id="needNone"
-                                                        name="needs"><label class="form-check-label"
-                                                        for="needNoone">None</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="checkbox"
-                                                        value="FinancialAid" id="needFinancialAid"
-                                                        name="needs"><label class="form-check-label"
-                                                        for="needFinancialAid">Financial Aid</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="checkbox"
-                                                        value="Accessibility" id="needAccessibility"
-                                                        name="needs"><label class="form-check-label"
-                                                        for="needAccessibility">Accessibility</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="checkbox"
-                                                        value="Counselling" id="needCounselling"
-                                                        name="needs"><label class="form-check-label"
-                                                        for="needCounselling">Counselling</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="checkbox"
-                                                        value="Accomodation" id="needAccomodation"
-                                                        name="needs"><label class="form-check-label"
-                                                        for="needAccomodation">Accomodation</label></div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+        .custom-multiselect .selected-item span {
+            margin-left: 5px;
+            cursor: pointer;
+        }
 
-                                <div class="mb-3">
-                                    <label for="category" class="form-label left-align">Level of Education</label>
-                                    <select class="form-select" id="category" name="category" required>
-                                        <option value="">Select a Category</option>
-                                        <option value="Undergraduate">Undergraduate</option>
-                                        <option value="Masters">Graduate</option>
-                                        <option value="Research">Research</option>
-                                    </select>
-                                </div>
+        .dropdown-options {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            border: 1px solid #ced4da;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
 
-                                <div class="mb-3">
-                                    <label for="studyField" class="form-label left-align">Field of Study *</label>
-                                    <div class="dropdown">
-                                        <button class="btn btn-primary dropdown-toggle w-100" type="button"
-                                            id="dropdownStudyField" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                            Select Field of Study
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownStudyField">
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="radio"
-                                                        value="ComputerScience" id="fieldComputerScience"
-                                                        name="field"><label class="form-check-label"
-                                                        for="ComputerScience">Computer Science</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="radio"
-                                                        value="Media" id="fieldMedia"
-                                                        name="field"><label class="form-check-label"
-                                                        for="fieldMedia">Media</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="radio"
-                                                        value="Business" id="fieldBusiness"
-                                                        name="field"><label class="form-check-label"
-                                                        for="fieldBusiness">Business</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="radio"
-                                                        value="Chemistry" id="fieldChemistry"
-                                                        name="field"><label class="form-check-label"
-                                                        for="fieldChemistry">Chemistry</label></div>
-                                            </li><li>
-                                                <div class="form-check"><input class="form-check-input" type="radio"
-                                                        value="Medicine" id="fieldMedicine"
-                                                        name="field"><label class="form-check-label"
-                                                        for="fieldMedicine">Medicine</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="radio"
-                                                        value="Engineering" id="fieldEngineering"
-                                                        name="field"><label class="form-check-label"
-                                                        for="fieldEngineering">Engineering</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="radio"
-                                                        value="Physics" id="fieldPhysics"
-                                                        name="field"><label class="form-check-label"
-                                                        for="fieldPhysics">Physics</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="radio"
-                                                        value="Law" id="fieldLaw"
-                                                        name="field"><label class="form-check-label"
-                                                        for="fieldLaw">Law</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="radio"
-                                                        value="Nursing" id="fieldNursing"
-                                                        name="field"><label class="form-check-label"
-                                                        for="fieldNursing">Nursing</label></div>
-                                            </li>
-                                            <li>
-                                                <div class="form-check"><input class="form-check-input" type="radio"
-                                                        value="Politics" id="fieldPolitics"
-                                                        name="field"><label class="form-check-label"
-                                                        for="fieldPolitics">Politics</label></div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+        .dropdown-options div {
+            padding: 8px;
+            cursor: pointer;
+        }
 
-                                <div class="mb-3">
-                                    <label for="username" class="form-label left-align">GPA</label>
-                                    <input class="form-control" type="text" id="gpa" name="gpa"
-                                        placeholder="Enter your GPA (If applicable)" value="">
-                                </div>
+        .dropdown-options div:hover {
+            background: #6a11cb;
+            color: white;
+        }
 
-                                <button class="btn btn-success w-100" type="submit">Create Account</button>
-                            </form>
-                            <p class="text-center mt-3">Already have an account? <a href="/login"
-                                    class="text-primary">Log in</a></p>
-                        </div>
+        .mb-6 {
+            margin-bottom: 6rem !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="form-container">
+        <div class="form-wrapper">
+            <h2 class="form-title">Student Signup</h2>
+            <form action="/signupStudent" method="POST">
+                <!-- First Name -->
+                <div class="mb-3">
+                    <label for="firstName" class="form-label">First Name <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" id="firstName" name="firstName"
+                        placeholder="Enter your first name" required />
+                </div>
+
+                <!-- Last Name -->
+                <div class="mb-3">
+                    <label for="lastName" class="form-label">Last Name <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" id="lastName" name="lastName"
+                        placeholder="Enter your last name" required />
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Address <span style="color: red;">*</span></label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email"
+                        required />
+                </div>
+
+                <!-- Password -->
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password <span style="color: red;">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text" onclick="togglePassword('password')">
+                            <img src="/show.jpg" alt="Show Password" id="password-icon"
+                                style="width: 20px; cursor: pointer;">
+                        </span>
+                        <input type="password" class="form-control" id="password" name="password"
+                            placeholder="Create a password" required />
                     </div>
                 </div>
-            </div>
+
+                <!-- Confirm Password -->
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">Confirm Password <span
+                            style="color: red;">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text" onclick="togglePassword('confirmPassword')">
+                            <img src="/show.jpg" alt="Show Password" id="confirmPassword-icon"
+                                style="width: 20px; cursor: pointer;">
+                        </span>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                            placeholder="Confirm your password" required />
+                    </div>
+                </div>
+
+                <!-- Nationality -->
+                <div class="mb-3 dropdown-container">
+                    <label for="nationality" class="form-label">Nationality <span style="color: red;">*</span></label>
+                    <div class="custom-multiselect" id="nationality" onclick="toggleDropdown('nationalityOptions')">
+                    </div>
+                    <div class="dropdown-options" id="nationalityOptions"></div>
+                    <input type="hidden" id="nationalityHidden" name="nationality" required>
+                </div>
+
+                <!-- Country of Residence -->
+                <div class="mb-3 dropdown-container">
+                    <label for="residence" class="form-label">Country of Residence <span
+                            style="color: red;">*</span></label>
+                    <div class="custom-multiselect" id="residence" onclick="toggleDropdown('residenceOptions')">
+                    </div>
+                    <div class="dropdown-options" id="residenceOptions"></div>
+                </div>
+
+                <!-- City of Residence -->
+                <div class="mb-3 dropdown-container">
+                    <label for="city" class="form-label">City of Residence <span style="color: red;">*</span></label>
+                    <div class="custom-multiselect" id="city" onclick="toggleDropdown('cityOptions')">
+                    </div>
+                    <div class="dropdown-options" id="cityOptions"></div>
+                </div>
+
+                <!-- Languages -->
+                <div class="mb-3 dropdown-container">
+                    <label for="languages" class="form-label">Languages You Know <span
+                            style="color: red;">*</span></label>
+                    <div class="custom-multiselect" id="languages" onclick="toggleDropdown('languagesOptions')"></div>
+                    <div class="dropdown-options" id="languagesOptions"></div>
+                </div>
+
+                <!-- Level of Education -->
+                <div class="mb-3 dropdown-container">
+                    <label for="education" class="form-label">Level of Education <span
+                            style="color: red;">*</span></label>
+                    <div class="custom-multiselect" id="education" onclick="toggleDropdown('educationOptions')">
+                    </div>
+                    <div class="dropdown-options" id="educationOptions"></div>
+                </div>
+
+                <!-- GPA -->
+                <div class="mb-3">
+                    <label for="gpa" class="form-label">GPA</label>
+                    <input type="text" class="form-control" id="gpa" name="gpa" placeholder="Enter your GPA" />
+                </div>
+
+                <!-- File Upload: Most Recent Transcript -->
+                <div class="mb-3">
+                    <label for="transcript" class="form-label">Most Recent Transcript</label>
+                    <input type="file" class="form-control" id="transcript" name="transcript"
+                        accept=".pdf,.doc,.docx,.jpg,.png" />
+                </div>
+
+                <!-- Needs and Necessities -->
+                <div class="mb-6 dropdown-container">
+                    <label for="needs" class="form-label">Needs and Necessities</label>
+                    <div class="custom-multiselect" id="needs" onclick="toggleDropdown('needsOptions')"></div>
+                    <div class="dropdown-options" id="needsOptions"></div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+
+                <p class="text-center mt-3">
+                    Already have an account? <a href="/login" class="text-decoration-none">Login here</a>
+                </p>
+            </form>
         </div>
     </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // City data mapped to countries
-            const cityData = {
-              Qatar: ["Doha", "Al Wakrah", "Duhail"],
-              "United States": ["New York", "Los Angeles", "Chicago"],
-              England: ["London", "Manchester", "Birmingham"],
-              Turkey: ["Istanbul", "Ankara", "Izmir"],
-              Canada: ["Toronto", "Vancouver", "Montreal"],
-              Germany: ["Berlin", "Munich", "Hamburg"]
+        function togglePassword(fieldId) {
+            const inputField = document.getElementById(fieldId);
+            const icon = document.querySelector(`#${fieldId}-icon`);
+
+            if (inputField.type === "password") {
+                inputField.type = "text";
+                icon.src = "/hide.png";
+                icon.alt = "Hide Password";
+            } else {
+                inputField.type = "password";
+                icon.src = "/show.jpg";
+                icon.alt = "Show Password";
+            }
+        }
+
+        function toggleDropdown(id) {
+            document.getElementById(id).style.display =
+                document.getElementById(id).style.display === "block" ? "none" : "block";
+        }
+
+        function selectSingleOption(fieldId, value) {
+            const container = document.getElementById(fieldId);
+            const hiddenInput = document.getElementById(fieldId + "Hidden");
+            container.innerHTML = value;
+            hiddenInput.value = value;
+
+            const optionsDiv = document.getElementById(fieldId + "Options");
+            optionsDiv.style.display = "none";
+
+            if (fieldId === "residence") {
+                populateDropdown("cityOptions", citiesByCountry[value] || [], true);
+                document.getElementById("city").innerHTML = "";
+                document.getElementById("cityHidden").value = "";
+            }
+        }
+
+        function selectMultipleOptions(id, value) {
+            const container = document.getElementById(id);
+            const optionsDiv = document.getElementById(id + "Options");
+            const hiddenInput = document.getElementById(id + "Hidden");
+
+            if ([...container.children].some(child => child.textContent.includes(value))) {
+                return;
+            }
+
+            const item = document.createElement("div");
+            item.classList.add("selected-item");
+            item.textContent = value;
+
+            const removeBtn = document.createElement("span");
+            removeBtn.textContent = " ✖";
+            removeBtn.style.cursor = "pointer";
+            removeBtn.onclick = function () {
+                container.removeChild(item);
+
+                const remainingValues = [...container.children].map(child =>
+                    child.textContent.replace(" ✖", "")
+                );
+                hiddenInput.value = remainingValues.join(",");
             };
-        
-            const countryDropdown = document.getElementById('dropdownCountries');
-            const cityDropdown = document.getElementById('dropdownCities');
-        
-            // Event listener for when the user selects a country
-            countryDropdown.addEventListener('change', () => {
-              const selectedCountry = countryDropdown.value;
-              cityDropdown.innerHTML = ''; // Clear previous city options
-        
-              if (selectedCountry && cityData[selectedCountry]) {
-                cityData[selectedCountry].forEach(city => {
-                  const option = document.createElement('option');
-                  option.value = city;
-                  option.textContent = city;
-                  cityDropdown.appendChild(option);
-                });
-              } else {
-                const defaultOption = document.createElement('option');
-                defaultOption.value = '';
-                defaultOption.textContent = 'Select a country first';
-                cityDropdown.appendChild(defaultOption);
-              }
+
+            item.appendChild(removeBtn);
+            container.appendChild(item);
+            optionsDiv.style.display = "none";
+
+            const selectedValues = [...container.children].map(child =>
+                child.textContent.replace(" ✖", "")
+            );
+            hiddenInput.value = selectedValues.join(",");
+        }
+
+        const nationalities = [
+            "American", "British", "Canadian", "French", "German", "Indian", "Chinese",
+            "Japanese", "Brazilian", "Mexican", "Australian", "Italian", "Spanish"
+        ];
+        const countries = [
+            "United States", "Canada", "United Kingdom", "France", "Germany", "India", "China",
+            "Japan", "Brazil", "Mexico", "Australia", "Italy", "Spain", "South Africa", "Russia"
+        ];
+        const citiesByCountry = {
+            "United States": ["New York", "Los Angeles", "Chicago", "Houston"],
+            "Canada": ["Toronto", "Vancouver", "Montreal"],
+            "United Kingdom": ["London", "Manchester", "Birmingham"],
+            "France": ["Paris", "Lyon", "Marseille"],
+            "Germany": ["Berlin", "Munich", "Hamburg"],
+            "India": ["Delhi", "Mumbai", "Bangalore"],
+            "China": ["Beijing", "Shanghai", "Shenzhen"],
+            "Japan": ["Tokyo", "Osaka", "Kyoto"],
+            "Brazil": ["São Paulo", "Rio de Janeiro", "Brasília"],
+            "Mexico": ["Mexico City", "Guadalajara", "Monterrey"],
+            "Australia": ["Sydney", "Melbourne", "Brisbane"],
+            "Italy": ["Rome", "Milan", "Naples"],
+            "Spain": ["Madrid", "Barcelona", "Valencia"],
+            "Qatar": ["Doha", "Al Rayyan", "Al Wakrah"]
+        };
+        const languages = ["English", "Spanish", "French", "German", "Arabic"];
+        const educationLevels = ["Undergraduate", "Graduate", "Research"];
+        const needs = ["Financial Aid", "Accessibility Services", "Counseling Services", "Accommodation"];
+
+        function populateDropdown(id, items, isSingleSelect = false) {
+            const dropdown = document.getElementById(id);
+            dropdown.innerHTML = "";
+
+            items.forEach(item => {
+                const option = document.createElement("div");
+                option.textContent = item;
+
+                option.onclick = function () {
+                    if (isSingleSelect) {
+                        selectSingleOption(id.replace("Options", ""), item);
+                    } else {
+                        selectMultipleOptions(id.replace("Options", ""), item);
+                    }
+                };
+
+                dropdown.appendChild(option);
             });
-          });
-      
-        document.querySelectorAll('.input-group-text i').forEach(toggleIcon => {
-          toggleIcon.addEventListener('click', () => {
-            const passwordField = toggleIcon.closest('.input-group').querySelector('input');
-            const isPassword = passwordField.getAttribute('type') === 'password';
-            passwordField.setAttribute('type', isPassword ? 'text' : 'password');
-            toggleIcon.classList.toggle('bi-eye');
-            toggleIcon.classList.toggle('bi-eye-slash');
-          });
-        });
-      </script>      
+        }
+
+        populateDropdown("nationalityOptions", nationalities, true);
+        populateDropdown("residenceOptions", countries, true);
+        populateDropdown("languagesOptions", languages);
+        populateDropdown("educationOptions", educationLevels, true);
+        populateDropdown("needsOptions", needs);
+    </script>
+
 </body>
+
+</html>

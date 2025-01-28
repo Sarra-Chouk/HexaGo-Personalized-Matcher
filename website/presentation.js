@@ -24,10 +24,8 @@ app.set("view engine", "handlebars")
 app.engine("handlebars", hbs.engine)
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use('/profilePictures', express.static(__dirname + "/static/profilePictures"))
-app.use('/badges', express.static(__dirname + '/static/badges'))
-app.use('/images', express.static(__dirname + '/static'))
 app.use(fileUpload())
+app.use(express.static(__dirname + "/static"));
 
 
 /**
