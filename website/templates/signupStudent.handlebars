@@ -305,10 +305,10 @@
         function selectMultipleOptions(id, value) {
             const container = document.getElementById(id);
             const optionsDiv = document.getElementById(id + "Options");
-            const hiddenInput = document.getElementById(id + "Hidden"); // Get corresponding hidden input
+            const hiddenInput = document.getElementById(id + "Hidden"); 
         
             if ([...container.children].some(child => child.textContent.includes(value))) {
-                return; // Prevent duplicate selections
+                return; 
             }
         
             const item = document.createElement("div");
