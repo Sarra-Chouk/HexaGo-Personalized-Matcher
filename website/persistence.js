@@ -28,6 +28,8 @@ let db = undefined
 let users = undefined
 let sessions = undefined
 
+//sarra : mongodb+srv://60300372:INFS3201@infs3201.9arv1.mongodb.net/
+//manahil : mongodb+srv://60302181:12class34@cluster0.yrpo2.mongodb.net/
 
 /**
  * Establishes a connection to the MongoDB database if not already connected.
@@ -40,7 +42,7 @@ let sessions = undefined
 async function connectDatabase() {
     if (!client) {
         try {
-            client = new MongoClient('mongodb+srv://60300372:INFS3201@infs3201.9arv1.mongodb.net/')
+            client = new MongoClient('mongodb+srv://60302181:12class34@cluster0.yrpo2.mongodb.net/')
             await client.connect()
             db = client.db("HexaGo")
             users = db.collection("users")

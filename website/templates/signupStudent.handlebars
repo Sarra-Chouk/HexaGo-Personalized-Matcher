@@ -14,7 +14,7 @@
             height: 100%;
             width: 100%;
             margin: 0;
-            background: linear-gradient(135deg, rgb(69, 28, 113), rgb(19, 72, 163));
+            background: linear-gradient(135deg,rgb(69, 28, 113),rgb(19, 72, 163));
             font-family: 'Arial', sans-serif;
             display: flex;
             align-items: center;
@@ -128,17 +128,22 @@
 </head>
 
 <body>
-
     <div class="form-container">
         <div class="form-wrapper">
             <h2 class="form-title">Student Signup</h2>
-            <form action="/signupStudent" method="POST">
+            <p class="text-muted" style="text-align: center;">Create your account</p>
+            {{#if message}}
+            <div class="alert text-center {{#ifEquals type 
+                'success'}}alert-success{{else}}alert-danger{{/ifEquals}}">
+                {{message}}
+            </div>
+            {{/if}}            
+            <form action="/sign-up-student" method="POST">
                 <!-- Name -->
                 <div class="mb-2">
                     <label for="username" class="form-label">Name <span style="color: red;">*</span></label>
                     <input type="text" class="form-control" id="username" name="username"
                         placeholder="Enter your full name" required />
-                              
                 </div>
 
                 <!-- Email -->
@@ -204,24 +209,25 @@
 
                 <!-- Languages -->
                 <div class="mb-4 dropdown-container">
-                    <label for="languages" class="form-label">Languages You Know <span
-                            style="color: red;">*</span></label>
+                    <label for="languages" class="form-label">Languages You Know <span style="color: red;">*</span></label>
                     <div class="custom-multiselect" id="languages" onclick="toggleDropdown('languagesOptions')"></div>
                     <div class="dropdown-options" id="languagesOptions"></div>
+                    <input type="hidden" id="languagesHidden" name="languages">
                 </div>
 
                 <!-- Level of Education -->
                 <div class="mb-4 dropdown-container">
                     <label for="education" class="form-label">Level of Education <span
                             style="color: red;">*</span></label>
-                    <div class="custom-multiselect" id="education" onclick="toggleDropdown('educationOptions')">
-                    </div>
+                    <div class="custom-multiselect" id="education" onclick="toggleDropdown('educationOptions')"></div>
                     <div class="dropdown-options" id="educationOptions"></div>
+                    <input type="hidden" id="educationHidden" name="education">
                 </div>
 
                 <!-- Field of Study -->
                 <div class="mb-4 dropdown-container">
-                    <label for="fields" class="form-label">Field of Study <span style="color: red;">*</span></label>
+                    <label for="fields" class="form-label">Field of Study <span
+                        style="color: red;">*</span></label>
                     <div class="custom-multiselect" id="fields" onclick="toggleDropdown('fieldsOptions')">
                         Select a Field
                     </div>
@@ -240,8 +246,9 @@
                     <label for="needs" class="form-label">Needs and Necessities</label>
                     <div class="custom-multiselect" id="needs" onclick="toggleDropdown('needsOptions')"></div>
                     <div class="dropdown-options" id="needsOptions"></div>
+                    <input type="hidden" id="needsHidden" name="needs">
                 </div>
-
+                
                 <!-- File Upload: Most Recent Transcript -->
                 <div class="mb-5">
                     <label for="transcript" class="form-label">Most Recent Transcript</label>
@@ -273,7 +280,6 @@
                 icon.alt = "Show Password";
             }
         }
-
         function toggleDropdown(id) {
             document.getElementById(id).style.display =
                 document.getElementById(id).style.display === "block" ? "none" : "block";
@@ -299,37 +305,38 @@
         function selectMultipleOptions(id, value) {
             const container = document.getElementById(id);
             const optionsDiv = document.getElementById(id + "Options");
-            const hiddenInput = document.getElementById(id + "Hidden");
-
+            const hiddenInput = document.getElementById(id + "Hidden"); // Get corresponding hidden input
+        
             if ([...container.children].some(child => child.textContent.includes(value))) {
-                return;
+                return; // Prevent duplicate selections
             }
-
+        
             const item = document.createElement("div");
             item.classList.add("selected-item");
             item.textContent = value;
-
+        
             const removeBtn = document.createElement("span");
             removeBtn.textContent = " ✖";
             removeBtn.style.cursor = "pointer";
             removeBtn.onclick = function () {
                 container.removeChild(item);
-
-                const remainingValues = [...container.children].map(child =>
-                    child.textContent.replace(" ✖", "")
-                );
-                hiddenInput.value = remainingValues.join(",");
+                updateHiddenInput(hiddenInput, container);
             };
-
+        
             item.appendChild(removeBtn);
             container.appendChild(item);
             optionsDiv.style.display = "none";
-
+        
+            updateHiddenInput(hiddenInput, container);
+        }
+        
+        function updateHiddenInput(hiddenInput, container) {
             const selectedValues = [...container.children].map(child =>
                 child.textContent.replace(" ✖", "")
             );
             hiddenInput.value = selectedValues.join(",");
         }
+        
 
         const nationalities = [
             "American", "British", "Canadian", "French", "German", "Indian", "Chinese",
@@ -361,32 +368,32 @@
         const needs = ["Financial Aid", "Accessibility Services", "Counseling Services", "Accommodation"];
 
         function populateDropdown(id, items, isSingleSelect = false) {
-                const dropdown = document.getElementById(id);
-                dropdown.innerHTML = ""; 
+            const dropdown = document.getElementById(id);
+            dropdown.innerHTML = ""; 
 
-                items.forEach(item => {
-                    const option = document.createElement("div");
-                    option.textContent = item;
-                    option.style.padding = "8px";
-                    option.style.cursor = "pointer";
+            items.forEach(item => {
+                const option = document.createElement("div");
+                option.textContent = item;
+                option.style.padding = "8px";
+                option.style.cursor = "pointer";
 
-                    option.onclick = function () {
-                        if (isSingleSelect) {
-                            selectSingleOption(id.replace("Options", ""), item); 
-                        } else {
-                            selectMultipleOptions(id.replace("Options", ""), item);
-                        }
-                    };
+                option.onclick = function () {
+                    if (isSingleSelect) {
+                        selectSingleOption(id.replace("Options", ""), item); 
+                    } else {
+                        selectMultipleOptions(id.replace("Options", ""), item);
+                    }
+                };
 
-                    dropdown.appendChild(option);
-                });
-            }
+                dropdown.appendChild(option);
+            });
+        }
 
         populateDropdown("nationalityOptions", nationalities, true);
-        populateDropdown("countryOptions", countries, true)
+        populateDropdown("countryOptions", countries, true);
         populateDropdown("languagesOptions", languages);
         populateDropdown("educationOptions", educationLevels, true);
-        populateDropdown("fieldsOptions", fields, true);
+        populateDropdown("fieldsOptions", fields, true);    
         populateDropdown("needsOptions", needs);
     </script>
 
