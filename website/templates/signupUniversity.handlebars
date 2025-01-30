@@ -14,7 +14,7 @@
             height: 100%;
             width: 100%;
             margin: 0;
-            background: linear-gradient(135deg,rgb(69, 28, 113),rgb(19, 72, 163));
+            background: linear-gradient(135deg, rgb(69, 28, 113), rgb(19, 72, 163));
             font-family: 'Arial', sans-serif;
             align-items: center;
             justify-content: center;
@@ -48,7 +48,7 @@
         }
 
         .btn-primary {
-            background-color: #6a11cb;
+            background-color: #3639c8;
             border: none;
         }
 
@@ -131,12 +131,23 @@
             text-align: center;
         }
 
-        .form-title {
-            
-        }
-
         .new-field-container {
             margin-top: 15px;
+        }
+
+        .mt-custom {
+            margin-top: 40px;
+        }
+
+        .btn-signup {
+            background-color: #6a11cb;
+            border: none;
+            color: white;
+        }
+
+        .btn-signup:hover {
+            background-color: #4d67ff;
+            color: white;
         }
     </style>
 </head>
@@ -154,8 +165,7 @@
         <form action="/sign-up-university" method="POST" enctype="multipart/form-data">
             <!-- Name -->
             <div class="mb-4">
-                <label for="username" class="form-label">University Name <span
-                        style="color: red;">*</span></label>
+                <label for="username" class="form-label">University Name <span style="color: red;">*</span></label>
                 <input type="text" class="form-control" id="username" name="username"
                     placeholder="Enter university name" required>
             </div>
@@ -222,12 +232,12 @@
 
             <!-- Services -->
             <div class="mb-2 dropdown-container">
-                <label for="services" class="form-label">Available Services <span
-                        style="color: red;">*</span></label>
+                <label for="services" class="form-label">Available Services <span style="color: red;">*</span></label>
                 <div class="custom-multiselect" id="services" onclick="toggleDropdown('servicesOptions')"></div>
                 <div class="dropdown-options" id="servicesOptions"></div>
                 <input type="hidden" id="servicesHidden" name="services">
-            </div>
+                          
+            </div>
 
             <div class="mb-4" id="fieldsContainer">
                 <!-- Offered Programs -->
@@ -235,8 +245,8 @@
                     <div class="mb-4">
                         <label class="form-label left-align">Offered Program</label>
                         <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
+                            <button class="btn btn-primary dropdown-toggle w-100" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
                                 Select Program
                             </button>
                             <ul class="dropdown-menu">
@@ -256,8 +266,8 @@
                                 </li>
                                 <li>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" value="Research" id="programResearch"
-                                            name="program0">
+                                        <input class="form-check-input" type="radio" value="Research"
+                                            id="programResearch" name="program0">
                                         <label class="form-check-label" for="programResearch">Research</label>
                                     </div>
                                 </li>
@@ -269,37 +279,44 @@
                     <div class="mb-4">
                         <label class="form-label left-align">Available Fields</label>
                         <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button class="btn btn-primary dropdown-toggle w-100" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
                                 Select Field of Study
                             </button>
                             <ul class="dropdown-menu">
                                 <li>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" value="Art" id="fieldArt0" name="field0" required>
+                                        <input class="form-check-input" type="radio" value="Art" id="fieldArt0"
+                                            name="field0" required>
                                         <label class="form-check-label" for="fieldArt0">Art</label>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" value="Business" id="fieldBusiness0" name="ffield0">
+                                        <input class="form-check-input" type="radio" value="Business"
+                                            id="fieldBusiness0" name="ffield0">
                                         <label class="form-check-label" for="fieldBusiness0">Business</label>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" value="Chemistry" id="fieldChemistry0" name="field0">
+                                        <input class="form-check-input" type="radio" value="Chemistry"
+                                            id="fieldChemistry0" name="field0">
                                         <label class="form-check-label" for="fieldChemistry0">Chemistry</label>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" value="ComputerScience" id="fieldComputerscience0" name="field0">
-                                        <label class="form-check-label" for="fieldComputerscience0">Computer Science</label>
+                                        <input class="form-check-input" type="radio" value="ComputerScience"
+                                            id="fieldComputerscience0" name="field0">
+                                        <label class="form-check-label" for="fieldComputerscience0">Computer
+                                            Science</label>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" value="Education" id="fieldEducation0" name="field0">
+                                        <input class="form-check-input" type="radio" value="Education"
+                                            id="fieldEducation0" name="field0">
                                         <label class="form-check-label" for="fieldEducation0">Education</label>
                                     </div>
                                 </li>
@@ -311,37 +328,45 @@
                     <div class="mb-4">
                         <label class="form-label left-align">Language of Instruction</label>
                         <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button class="btn btn-primary dropdown-toggle w-100" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
                                 Select Languages
                             </button>
                             <ul class="dropdown-menu">
                                 <li>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="Arabic" id="instructionLanguageArabic0" name="languages0">
+                                        <input class="form-check-input" type="checkbox" value="Arabic"
+                                            id="instructionLanguageArabic0" name="languages0">
                                         <label class="form-check-label" for="instructionLanguageArabic0">Arabic</label>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="English" id="instructionLanguageEnglish0" name="languages0">
-                                        <label class="form-check-label" for="instructionLanguageEnglish0">English</label>
+                                        <input class="form-check-input" type="checkbox" value="English"
+                                            id="instructionLanguageEnglish0" name="languages0">
+                                        <label class="form-check-label"
+                                            for="instructionLanguageEnglish0">English</label>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="French" id="instructionLanguageFrench0" name="languages0">
+                                        <input class="form-check-input" type="checkbox" value="French"
+                                            id="instructionLanguageFrench0" name="languages0">
                                         <label class="form-check-label" for="instructionLanguageFrench0">French</label>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="Spanish" id="instructionLanguageSpanish0" name="languages0">
-                                        <label class="form-check-label" for="instructionLanguageSpanish$0">Spanish</label>
+                                        <input class="form-check-input" type="checkbox" value="Spanish"
+                                            id="instructionLanguageSpanish0" name="languages0">
+                                        <label class="form-check-label"
+                                            for="instructionLanguageSpanish$0">Spanish</label>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="German" id="instructionLanguageGerman0" name="languages0">
+                                        <input class="form-check-input" type="checkbox" value="German"
+                                            id="instructionLanguageGerman0" name="languages0">
                                         <label class="form-check-label" for="instructionLanguageGerman0">German</label>
                                     </div>
                                 </li>
@@ -349,18 +374,17 @@
                         </div>
                     </div>
                 </div>
-            </div>                                
-            
-            <span class="add-field-button" id="addFieldButton">+ Add New Program</span>                                
+            </div>
 
-            <div class="mb-3">
-                <button class="btn btn-success w-100" type="submit">Create Account</button>
+            <span class="add-field-button" id="addFieldButton">+ Add New Program</span>
+
+            <div class="mb-3 mt-custom">
+                <button type="submit" class="btn btn-signup w-100">Sign Up</button>
             </div>
         </form>
-        <p class="text-center mt-4">Already have an account? <a href="/login"
-                class="text-primary">Log in</a></p>
+        <p class="text-center mt-4">Already have an account? <a href="/login" class="text-primary">Log in</a></p>
 
-                
+
         <script>
             function togglePassword(fieldId) {
                 const inputField = document.getElementById(fieldId);
@@ -462,7 +486,7 @@
 
             function populateDropdown(id, items, isSingleSelect = false) {
                 const dropdown = document.getElementById(id);
-                dropdown.innerHTML = ""; 
+                dropdown.innerHTML = "";
 
                 items.forEach(item => {
                     const option = document.createElement("div");
@@ -472,7 +496,7 @@
 
                     option.onclick = function () {
                         if (isSingleSelect) {
-                            selectSingleOption(id.replace("Options", ""), item); 
+                            selectSingleOption(id.replace("Options", ""), item);
                         } else {
                             selectMultipleOptions(id.replace("Options", ""), item);
                         }
@@ -488,15 +512,15 @@
             document.addEventListener('DOMContentLoaded', () => {
                 const addFieldButton = document.getElementById('addFieldButton');
 
-                console.log(addFieldButton); 
+                console.log(addFieldButton);
 
                 const fieldsContainer = document.getElementById('fieldsContainer');
-                let fieldIndex = 1; 
-    
+                let fieldIndex = 1;
+
                 addFieldButton.addEventListener('click', () => {
                     const newFieldContainer = document.createElement('div');
                     newFieldContainer.classList.add('new-field-container', 'mb-4');
-    
+
                     // Add Program Selection
                     newFieldContainer.innerHTML = `
                         <div class="mb-3">
@@ -532,7 +556,7 @@
                             </div>
                         </div>
                     `;
-    
+
                     // Add Field of Study Selection
                     newFieldContainer.innerHTML += `
                         <div class="mb-3">
@@ -589,7 +613,7 @@
                             </div>
                         </div>
                     `;
-    
+
                     // Add Language Selection
                     newFieldContainer.innerHTML += `
                         <div class="mb-3">
@@ -634,15 +658,15 @@
                             </div>
                         </div>
                     `;
-    
+
                     // Append the new field container
                     fieldsContainer.appendChild(newFieldContainer);
-    
+
                     // Increment field index for unique IDs
                     fieldIndex++;
                 });
             });
-    
+
         </script>
 </body>
 
