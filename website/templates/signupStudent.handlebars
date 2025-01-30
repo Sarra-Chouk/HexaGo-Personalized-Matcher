@@ -14,7 +14,7 @@
             height: 100%;
             width: 100%;
             margin: 0;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            background: linear-gradient(135deg, rgb(69, 28, 113), rgb(19, 72, 163));
             font-family: 'Arial', sans-serif;
             display: flex;
             align-items: center;
@@ -27,8 +27,10 @@
             color: #333;
             min-height: 95vh;
             padding: 2rem;
-            margin-top: 85%;
+            margin-top: 0px;
             margin-bottom: 4%;
+            margin-left: 20px;
+            margin-right: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             width: 100%;
@@ -131,29 +133,23 @@
         <div class="form-wrapper">
             <h2 class="form-title">Student Signup</h2>
             <form action="/signupStudent" method="POST">
-                <!-- First Name -->
-                <div class="mb-3">
-                    <label for="firstName" class="form-label">First Name <span style="color: red;">*</span></label>
-                    <input type="text" class="form-control" id="firstName" name="firstName"
-                        placeholder="Enter your first name" required />
-                </div>
-
-                <!-- Last Name -->
-                <div class="mb-3">
-                    <label for="lastName" class="form-label">Last Name <span style="color: red;">*</span></label>
-                    <input type="text" class="form-control" id="lastName" name="lastName"
-                        placeholder="Enter your last name" required />
+                <!-- Name -->
+                <div class="mb-2">
+                    <label for="username" class="form-label">Name <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" id="username" name="username"
+                        placeholder="Enter your full name" required />
+                              
                 </div>
 
                 <!-- Email -->
-                <div class="mb-3">
+                <div class="mb-4">
                     <label for="email" class="form-label">Email Address <span style="color: red;">*</span></label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email"
                         required />
                 </div>
 
                 <!-- Password -->
-                <div class="mb-3">
+                <div class="mb-4">
                     <label for="password" class="form-label">Password <span style="color: red;">*</span></label>
                     <div class="input-group">
                         <span class="input-group-text" onclick="togglePassword('password')">
@@ -166,7 +162,7 @@
                 </div>
 
                 <!-- Confirm Password -->
-                <div class="mb-3">
+                <div class="mb-4">
                     <label for="confirmPassword" class="form-label">Confirm Password <span
                             style="color: red;">*</span></label>
                     <div class="input-group">
@@ -180,7 +176,7 @@
                 </div>
 
                 <!-- Nationality -->
-                <div class="mb-3 dropdown-container">
+                <div class="mb-4 dropdown-container">
                     <label for="nationality" class="form-label">Nationality <span style="color: red;">*</span></label>
                     <div class="custom-multiselect" id="nationality" onclick="toggleDropdown('nationalityOptions')">
                     </div>
@@ -188,25 +184,26 @@
                     <input type="hidden" id="nationalityHidden" name="nationality" required>
                 </div>
 
-                <!-- Country of Residence -->
-                <div class="mb-3 dropdown-container">
-                    <label for="residence" class="form-label">Country of Residence <span
-                            style="color: red;">*</span></label>
-                    <div class="custom-multiselect" id="residence" onclick="toggleDropdown('residenceOptions')">
+                <!-- Country -->
+                <div class="mb-4 dropdown-container">
+                    <label for="country" class="form-label">Country <span style="color: red;">*</span></label>
+                    <div class="custom-multiselect" id="country" onclick="toggleDropdown('countryOptions')">
                     </div>
-                    <div class="dropdown-options" id="residenceOptions"></div>
+                    <div class="dropdown-options" id="countryOptions"></div>
+                    <input type="hidden" id="countryHidden" name="country" required>
                 </div>
 
-                <!-- City of Residence -->
-                <div class="mb-3 dropdown-container">
-                    <label for="city" class="form-label">City of Residence <span style="color: red;">*</span></label>
+                <!-- City -->
+                <div class="mb-4 dropdown-container">
+                    <label for="city" class="form-label">City <span style="color: red;">*</span></label>
                     <div class="custom-multiselect" id="city" onclick="toggleDropdown('cityOptions')">
                     </div>
                     <div class="dropdown-options" id="cityOptions"></div>
+                    <input type="hidden" id="cityHidden" name="city" required>
                 </div>
 
                 <!-- Languages -->
-                <div class="mb-3 dropdown-container">
+                <div class="mb-4 dropdown-container">
                     <label for="languages" class="form-label">Languages You Know <span
                             style="color: red;">*</span></label>
                     <div class="custom-multiselect" id="languages" onclick="toggleDropdown('languagesOptions')"></div>
@@ -214,7 +211,7 @@
                 </div>
 
                 <!-- Level of Education -->
-                <div class="mb-3 dropdown-container">
+                <div class="mb-4 dropdown-container">
                     <label for="education" class="form-label">Level of Education <span
                             style="color: red;">*</span></label>
                     <div class="custom-multiselect" id="education" onclick="toggleDropdown('educationOptions')">
@@ -222,24 +219,34 @@
                     <div class="dropdown-options" id="educationOptions"></div>
                 </div>
 
+                <!-- Field of Study -->
+                <div class="mb-4 dropdown-container">
+                    <label for="fields" class="form-label">Field of Study <span style="color: red;">*</span></label>
+                    <div class="custom-multiselect" id="fields" onclick="toggleDropdown('fieldsOptions')">
+                        Select a Field
+                    </div>
+                    <div class="dropdown-options" id="fieldsOptions"></div>
+                    <input type="hidden" id="fieldsHidden" name="field">
+                </div>
+
                 <!-- GPA -->
-                <div class="mb-3">
+                <div class="mb-4">
                     <label for="gpa" class="form-label">GPA</label>
                     <input type="text" class="form-control" id="gpa" name="gpa" placeholder="Enter your GPA" />
                 </div>
 
-                <!-- File Upload: Most Recent Transcript -->
-                <div class="mb-3">
-                    <label for="transcript" class="form-label">Most Recent Transcript</label>
-                    <input type="file" class="form-control" id="transcript" name="transcript"
-                        accept=".pdf,.doc,.docx,.jpg,.png" />
-                </div>
-
                 <!-- Needs and Necessities -->
-                <div class="mb-6 dropdown-container">
+                <div class="mb-4 dropdown-container">
                     <label for="needs" class="form-label">Needs and Necessities</label>
                     <div class="custom-multiselect" id="needs" onclick="toggleDropdown('needsOptions')"></div>
                     <div class="dropdown-options" id="needsOptions"></div>
+                </div>
+
+                <!-- File Upload: Most Recent Transcript -->
+                <div class="mb-5">
+                    <label for="transcript" class="form-label">Most Recent Transcript</label>
+                    <input type="file" class="form-control" id="transcript" name="transcript"
+                        accept=".pdf,.doc,.docx,.jpg,.png" />
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100">Sign Up</button>
@@ -275,13 +282,14 @@
         function selectSingleOption(fieldId, value) {
             const container = document.getElementById(fieldId);
             const hiddenInput = document.getElementById(fieldId + "Hidden");
+
             container.innerHTML = value;
             hiddenInput.value = value;
 
             const optionsDiv = document.getElementById(fieldId + "Options");
             optionsDiv.style.display = "none";
 
-            if (fieldId === "residence") {
+            if (fieldId === "country") {
                 populateDropdown("cityOptions", citiesByCountry[value] || [], true);
                 document.getElementById("city").innerHTML = "";
                 document.getElementById("cityHidden").value = "";
@@ -349,32 +357,36 @@
         };
         const languages = ["English", "Spanish", "French", "German", "Arabic"];
         const educationLevels = ["Undergraduate", "Graduate", "Research"];
+        const fields = ["Art", "Business", "Chemistry", "Computer Science", "Education", "Engineering", "Law"];
         const needs = ["Financial Aid", "Accessibility Services", "Counseling Services", "Accommodation"];
 
         function populateDropdown(id, items, isSingleSelect = false) {
-            const dropdown = document.getElementById(id);
-            dropdown.innerHTML = "";
+                const dropdown = document.getElementById(id);
+                dropdown.innerHTML = ""; 
 
-            items.forEach(item => {
-                const option = document.createElement("div");
-                option.textContent = item;
+                items.forEach(item => {
+                    const option = document.createElement("div");
+                    option.textContent = item;
+                    option.style.padding = "8px";
+                    option.style.cursor = "pointer";
 
-                option.onclick = function () {
-                    if (isSingleSelect) {
-                        selectSingleOption(id.replace("Options", ""), item);
-                    } else {
-                        selectMultipleOptions(id.replace("Options", ""), item);
-                    }
-                };
+                    option.onclick = function () {
+                        if (isSingleSelect) {
+                            selectSingleOption(id.replace("Options", ""), item); 
+                        } else {
+                            selectMultipleOptions(id.replace("Options", ""), item);
+                        }
+                    };
 
-                dropdown.appendChild(option);
-            });
-        }
+                    dropdown.appendChild(option);
+                });
+            }
 
         populateDropdown("nationalityOptions", nationalities, true);
-        populateDropdown("residenceOptions", countries, true);
+        populateDropdown("countryOptions", countries, true)
         populateDropdown("languagesOptions", languages);
         populateDropdown("educationOptions", educationLevels, true);
+        populateDropdown("fieldsOptions", fields, true);
         populateDropdown("needsOptions", needs);
     </script>
 

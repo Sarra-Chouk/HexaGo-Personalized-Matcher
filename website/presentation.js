@@ -465,22 +465,24 @@ async function attachSessionData(req, res, next) {
  * 
  * @returns {void} Renders the "dashboard" view with user and matching user data.
  */
-app.get("/myMatches", attachSessionData, async (req, res) => {
+app.get("/api/matches", attachSessionData, async (req, res) => {
     try {
-        const message = req.query.message
-        const type = req.query.type
-        const userId = req.userId
-        const user = await business.getUserById(userId)
+        const userId = req.userId;
+        const user = await business.getUserById(userId);
 
-        res.render("myMatches")
+        if (!user || user.type !== "University") {
+            return res.status(403).json({ error: "Only universities can access this route." });
+        }
 
-    } catch (err) {
+        const matches = await business.getUniversityMatches(user);
+        res.json({ matches });
 
-        console.error("Error fetching dashboard data:", err.message)
-        res.status(500).send("An error occurred while loading your dashboard.")
-
+    } catch (error) {
+        console.error("Error fetching matches:", error.message);
+        res.status(500).json({ error: "An error occurred while fetching matches." });
     }
-})
+});
+
 
 
 app.get("/profile", attachSessionData, async (req, res) => {

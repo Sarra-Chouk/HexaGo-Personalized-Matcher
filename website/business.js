@@ -175,6 +175,7 @@ async function checkLogin(email, password) {
     }
 }
 
+
 /**
  * Starts a new session for a user by creating a session object with a unique session key and expiry time.
  *
@@ -196,6 +197,7 @@ async function startSession(userId) {
     return uuid
 }
 
+
 /**
  * Retrieves a session by its session key.
  *
@@ -209,6 +211,7 @@ async function getSession(key) {
     return await persistence.getSession(key)
 }
 
+
 /**
  * Deletes a session by its session key.
  *
@@ -220,6 +223,7 @@ async function getSession(key) {
 async function deleteSession(key) {
     return await persistence.deleteSession(key)
 }
+
 
 /**
  * Stores a password reset key for a user in the database.
@@ -236,6 +240,7 @@ async function storeResetKey(email) {
     return resetKey
 }
 
+
 /**
  * Retrieves a user from the database using a password reset key.
  *
@@ -248,6 +253,7 @@ async function storeResetKey(email) {
 async function getUserByResetKey(resetKey) {
     return await persistence.getUserByKey(resetKey)
 }
+
 
 /**
  * Sends a password reset email to the specified user.
@@ -272,6 +278,7 @@ async function sendPasswordResetEmail(email, resetKey) {
     `;
     console.log(body)
 }
+
 
 /**
  * Resets a user's password using a reset key.
@@ -303,6 +310,7 @@ async function resetPassword(resetKey, newPassword, confirmedPassword) {
     await persistence.clearKey(user.email)
     return { isValid: true }
 }
+
 
 /**
  * Updates a user's password in the database.
@@ -355,6 +363,7 @@ async function getProfile(userId) {
         badges: user.badges || []
     };
 }
+
 
 /**
  * Sends a message from one user to another.

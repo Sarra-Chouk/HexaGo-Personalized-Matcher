@@ -14,9 +14,8 @@
             height: 100%;
             width: 100%;
             margin: 0;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            background: linear-gradient(135deg,rgb(69, 28, 113),rgb(19, 72, 163));
             font-family: 'Arial', sans-serif;
-            display: flex;
             align-items: center;
             justify-content: center;
             overflow: auto;
@@ -27,8 +26,10 @@
             color: #333;
             min-height: 95vh;
             padding: 2rem;
-            margin-top: 60%;
+            margin-top: 0px;
             margin-bottom: 4%;
+            margin-left: 20px;
+            margin-right: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             width: 100%;
@@ -122,6 +123,10 @@
         .mb-6 {
             margin-bottom: 6rem !important;
         }
+
+        .form-title {
+            
+        }
     </style>
 </head>
 
@@ -130,22 +135,22 @@
         <h2 class="form-title">University Signup</h2>
         <form action="/sign-up-university" method="POST" enctype="multipart/form-data">
             <!-- Name -->
-            <div class="mb-3">
-                <label for="universityName" class="form-label">University Name <span
+            <div class="mb-4">
+                <label for="username" class="form-label">University Name <span
                         style="color: red;">*</span></label>
-                <input type="text" class="form-control" id="universityName" name="universityName"
+                <input type="text" class="form-control" id="username" name="username"
                     placeholder="Enter university name" required>
             </div>
 
             <!-- Email -->
-            <div class="mb-3">
+            <div class="mb-4">
                 <label for="email" class="form-label">University Email <span style="color: red;">*</span></label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="Enter university email"
                     required>
             </div>
 
             <!-- Password -->
-            <div class="mb-3">
+            <div class="mb-4">
                 <label for="password" class="form-label">Password <span style="color: red;">*</span></label>
                 <div class="input-group">
                     <span class="input-group-text" onclick="togglePassword('password')">
@@ -158,7 +163,7 @@
             </div>
 
             <!-- Confirm Password -->
-            <div class="mb-3">
+            <div class="mb-4">
                 <label for="confirmPassword" class="form-label">Confirm Password <span
                         style="color: red;">*</span></label>
                 <div class="input-group">
@@ -172,7 +177,7 @@
             </div>
 
             <!-- Country -->
-            <div class="mb-3 dropdown-container">
+            <div class="mb-4 dropdown-container">
                 <label for="country" class="form-label">Country <span style="color: red;">*</span></label>
                 <div class="custom-multiselect" id="country" onclick="toggleDropdown('countryOptions')">
                 </div>
@@ -181,7 +186,7 @@
             </div>
 
             <!-- City -->
-            <div class="mb-3 dropdown-container">
+            <div class="mb-4 dropdown-container">
                 <label for="city" class="form-label">City <span style="color: red;">*</span></label>
                 <div class="custom-multiselect" id="city" onclick="toggleDropdown('cityOptions')">
                 </div>
@@ -190,38 +195,53 @@
             </div>
 
             <!-- Minimum GPA -->
-            <div class="mb-3">
+            <div class="mb-4">
                 <label for="minGPA" class="form-label">Minimum GPA Requirement <span
                         style="color: red;">*</span></label>
                 <input type="text" class="form-control" id="minGPA" name="minGPA" placeholder="Enter minimum GPA"
                     required>
             </div>
 
-            <!-- Offered Program -->
-            <div class="mb-3 dropdown-container">
-                <label for="program" class="form-label">Offered Program <span style="color: red;">*</span></label>
-                <div class="custom-multiselect" id="program" onclick="toggleDropdown('programOptions')">
-                    Select a Program
+            <!-- Services -->
+            <div class="mb-2 dropdown-container">
+                <label for="services" class="form-label">Available Services <span
+                        style="color: red;">*</span></label>
+                <div class="custom-multiselect" id="services" onclick="toggleDropdown('servicesOptions')"></div>
+                <div class="dropdown-options" id="servicesOptions"></div>
+            </div>
+
+            <div id="fieldsContainer">
+                <!-- Offered Program -->
+                <div class="mb-4 dropdown-container">
+                    <label for="program" class="form-label">Offered Program <span style="color: red;">*</span></label>
+                    <div class="custom-multiselect" id="program" onclick="toggleDropdown('programOptions')">
+                        Select a Program
+                    </div>
+                    <div class="dropdown-options" id="programOptions"></div>
+                    <input type="hidden" id="programHidden" name="program" required>
                 </div>
-                <div class="dropdown-options" id="programOptions"></div>
-                <input type="hidden" id="programHidden" name="program" required>
-            </div>
 
-            <!-- Available Fields -->
-            <div class="mb-3 dropdown-container">
-                <label for="availableFields" class="form-label">Available Fields</label>
-                <div class="custom-multiselect" id="availableFields" onclick="toggleDropdown('availableFieldsOptions')"></div>
-                <div class="dropdown-options" id="availableFieldsOptions"></div>
-                <input type="hidden" id="availableFieldsHidden" name="availableFields">
-            </div>
+                <!-- Available Fields -->
+                <div class="mb-4 dropdown-container">
+                    <label for="availableFields" class="form-label">Available Fields</label>
+                    <div class="custom-multiselect" id="availableFields" onclick="toggleDropdown('availableFieldsOptions')">
+                        Select a Field
+                    </div>
+                    <div class="dropdown-options" id="availableFieldsOptions"></div>
+                    <input type="hidden" id="availableFieldsHidden" name="availableFields">
+                </div>
 
-            <!-- Languages -->
-                <div class="mb-6 dropdown-container">
+                <!-- Languages -->
+                <div class="mb-4 dropdown-container">
                     <label for="languages" class="form-label">Languages of Instruction <span
                             style="color: red;">*</span></label>
-                    <div class="custom-multiselect" id="languages" onclick="toggleDropdown('languagesOptions')"></div>
+                    <div class="custom-multiselect" id="languages" onclick="toggleDropdown('languagesOptions')">
+                        Select Languages
+                    </div>
                     <div class="dropdown-options" id="languagesOptions"></div>
                 </div>
+            </div>
+
 
             <button type="submit" class="btn btn-primary w-100 mt-3">Create Account</button>
             <p class="text-center mt-3">Already have an account? <a href="/login" class="text-primary">Log in</a></p>
@@ -325,6 +345,7 @@
             const programs = ["Undergraduate", "Graduate", "Research"];
             const fields = ["Art", "Business", "Chemistry", "Computer Science", "Education", "Engineering", "Law"];
             const languages = ["English", "Spanish", "French", "German", "Arabic"];
+            const services = ["Financial Aid", "Accessibility Services", "Counseling Services", "Accommodation"];
 
             function populateDropdown(id, items, isSingleSelect = false) {
                 const dropdown = document.getElementById(id);
@@ -352,7 +373,7 @@
             populateDropdown("programOptions", programs, true)
             populateDropdown("availableFieldsOptions", fields)
             populateDropdown("languagesOptions", languages);
-
+            populateDropdown("servicesOptions", services);
         </script>
 </body>
 
