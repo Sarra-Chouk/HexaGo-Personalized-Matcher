@@ -139,7 +139,6 @@ function createSaltedHash(password) {
  * @description This function validates the provided email, username, and password before creating a new user.
  * The password is hashed with a salt before storing. The user's email is marked as unverified by default.
  */
-
 async function createUser(userData) {
     const hashedPassword = createSaltedHash(userData.password)
     userData.password = hashedPassword
@@ -348,11 +347,9 @@ async function getProfile(userId) {
         city: user.city || "Not specified",
         knownLanguages: user.knownLanguages || [],
         needs: user.needs || [],
-        studyField: user.studyField || "Not specified",
-        educationLevel: user.educationLevel || "Not specified",
-        gpa: user.gpa || "Not specified",
-        profilePicture: user.profilePicture || "/default-profile.png",
-        badges: user.badges || []
+        studyField: user.field || "Not specified",
+        educationLevel: user.category || "Not specified",
+        gpa: user.gpa || "Not specified"
     };
 }
 

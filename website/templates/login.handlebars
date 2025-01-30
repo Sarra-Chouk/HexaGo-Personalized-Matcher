@@ -15,15 +15,8 @@
                 <div class="card-group d-block d-md-flex row">
                     <div class="card col-md-8 p-5 mb-0 fixed">
                         <div class="card-body">
-                            {{#if message}}
-                            <div class="alert text-center {{#ifEquals type 
-                                'success'}}alert-success{{else}}alert-danger{{/ifEquals}}">
-                                {{message}}
-                            </div>
-                            {{/if}}
                             <h1>Login</h1>
                             <p class="text-medium-emphasis">Sign In to your account</p>
-                            <input type="hidden" name="type" value="{{type}}" />
                             <form action="/login" method="POST">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">

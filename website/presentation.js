@@ -82,16 +82,17 @@ app.get("/sign-up-student", async (req, res) => {
  * @returns {void} Redirects to the login page with a success message upon successful registration.
  */
 app.post("/sign-up-student", async (req, res) => {
-    const { username, email, password, nationality, country, city, needs, knownLanguages, 
-        confirmedPassword, category, field, gpa
+    let { username, email, password, confirmPassword, nationality, country, city, needs, 
+        languages, education, field, gpa
     } = req.body
 
+    console.log(req.body)
 
-     const knownLanguagesArray = knownLanguages
-        ? Array.isArray(knownLanguages)
-            ? knownLanguages.filter((lang) => lang && lang.trim() !== "")
-            : [knownLanguages].filter((lang) => lang && lang.trim() !== "")
-        : []
+    languages = languages ? (Array.isArray(languages) ? languages : languages.split(",")) : [];
+    needs = needs ? (Array.isArray(needs) ? needs : needs.split(",")) : [];
+
+    languages = languages.map(lang => lang.trim());
+    needs = needs.map(need => need.trim());
 
     try {
 
@@ -106,22 +107,18 @@ app.post("/sign-up-student", async (req, res) => {
             throw new Error("Password must be at least 8 characters, include a number, a special character, an uppercase and lowercase letter.")
         }
 
-        if (confirmedPassword.trim() != password.trim()) {
+        if (confirmPassword.trim() != password.trim()) {
             throw new Error("The passwords you entered do not match. Please ensure both password fields are the same.")
         }
 
-        if (knownLanguagesArray.length === 0) {
-            throw new Error("Please select at least one language you speak fluently.")
-        }
-
-        const type = "Student"
+        const accountType = "Student"
         user = {
-            username, email, password, knownLanguages, nationality, country, city, needs, 
-            type, category, field, gpa
+            username, email, password, languages, nationality, country, city, needs, 
+            accountType, education, field, gpa
         }
         console.log(user)
         await business.createUser(user)
-        res.redirect(`/login?message=${encodeURIComponent("Registration successful.")}&type=success`)
+        res.redirect(`/login?message=${encodeURIComponent("Registration successful.")}&type=success&accountType=${accountType}`)
 
     }
 
@@ -164,31 +161,47 @@ app.get("/sign-up-university", async (req, res) => {
  * @returns {void} Redirects to the login page with a success message upon successful registration.
  */
 app.post("/sign-up-university", async (req, res) => {
-    const { username, email, password, confirmedPassword, country, city, services, 
-        formData, minGPA
+    let { username, email, password, confirmPassword, country, city, minGPA, services
     } = req.body
 
-    const degreeFields = [];
-    console.log(formData)
-    // Step 2: Loop through formData to extract program, field, and languages per index
-    let index = 1;
-    while (formData && formData[`program${index}`] !== undefined){
-        const program = formData[`program${index}`];
-        const field = formData[`field${index}`];
+    console.log(req.body)
+    let programs = [];
 
-        // Collect all languages for the current index
-        const languages = formData[`languages${index}`];
-        const languageArray = Array.isArray(languages) ? languages : [languages];
+    // Loop through req.body to extract all program groups
+    Object.keys(req.body).forEach(key => {
+        const match = key.match(/^program(\d+)$/); // Match program0, program1, etc.
+        if (match) {
+            const index = parseInt(match[1]); 
 
-        // Group them into an object and push to the array
-        degreeFields.push({
-            program,
-            field,
-            languages: languageArray,
-        });
+            // Ensure a group exists for this index
+            programs[index] = {
+                program: req.body[key],
+                field: "",  // Placeholder, will be updated below
+                languages: []
+            };
+        }
 
-        index++;
-    }
+        const fieldMatch = key.match(/^field(\d+)$/); // Match field0, field1, etc.
+        if (fieldMatch) {
+            const index = parseInt(fieldMatch[1]);
+            if (programs[index]) {
+                programs[index].field = req.body[key]; // Assign field
+            }
+        }
+
+        const languageMatch = key.match(/^languages(\d+)$/); // Match languages0, languages1, etc.
+        if (languageMatch) {
+            const index = parseInt(languageMatch[1]);
+            if (programs[index]) {
+                programs[index].languages = [].concat(req.body[key]); // Ensure languages is an array
+            }
+        }
+    });
+
+    console.log("programs:" + programs )
+
+    services = services ? (Array.isArray(services) ? services : services.split(",")) : [];
+    services = services.map(services => services.trim());
 
     try {
 
@@ -203,16 +216,16 @@ app.post("/sign-up-university", async (req, res) => {
             throw new Error("Password must be at least 8 characters, include a number, a special character, an uppercase and lowercase letter.")
         }
 
-        if (confirmedPassword.trim() != password.trim()) {
+        if (confirmPassword.trim() != password.trim()) {
             throw new Error("The passwords you entered do not match. Please ensure both password fields are the same.")
         }
 
-        const type = "University"
+        const accountType = "University"
         user = {
-            username, email, password, country, city, services, degreeFields, minGPA, type
+            username, email, password, country, city, services, minGPA, programs, accountType
         }
         await business.createUser(user)
-        res.redirect(`/login?message=${encodeURIComponent("Registration successful.")}&type=success`)
+        res.redirect(`/login?message=${encodeURIComponent("Registration successful.")}&type=success&accountType=${accountType}`)
 
     }
 
@@ -361,14 +374,14 @@ app.post("/update-password", async (req, res) => {
  * @param {Object} req - The request object.
  * @param {Object} res - The response object.
  * @param {string} req.query.message - Optional message to display on the login page.
- * @param {string} req.query.type - Optional type to define the message style (success/error).
  * 
  * @returns {void} Renders the "login" view with message and type.
  */
 app.get("/login", (req, res) => {
     const message = req.query.message
     const type = req.query.type
-    res.render("login", { message, type })
+    const accountType = req.query.accountType
+    res.render("login", { message, type, accountType })
 })
 
 
@@ -383,11 +396,12 @@ app.get("/login", (req, res) => {
  * 
  * @throws {Error} If any error occurs during the login process.
  * 
- * @returns {void} Redirects to the dashboard page with a success or error message.
+ * @returns {void} Redirects to the login page with a success or error message.
  */
 app.post("/login", async (req, res) => {
-    const { email, password, type } = req.body
+    const { email, password, accountType } = req.body
 
+    console.log(accountType)
     try {
 
         const loginResult = await business.checkLogin(email, password)
@@ -396,14 +410,9 @@ app.post("/login", async (req, res) => {
             return res.redirect(`/login?message=${encodeURIComponent(loginResult.message)}&type=error`)
         }
 
-        if(type == "University") {
-            res.send("This page is currently under construction! try again later.")
-            return
-        }
-
         const sessionKey = await business.startSession(loginResult.userId)
         res.cookie("sessionKey", sessionKey, { httpOnly: true })
-        res.redirect("/myMatches?message=" + encodeURIComponent("Welcome to HexaGo!") + "&type=success")
+        res.redirect(`/myMatches/?message=` + encodeURIComponent("Welcome to HexaGo!") + "&type=success")
 
     } catch (error) {
 
@@ -451,33 +460,33 @@ async function attachSessionData(req, res, next) {
 
 
 /**
- * Route handler for the "/dashboard" page.
- * Fetches and renders the dashboard with the user's data, including matching users.
+ * Route handler for the "/myMatches" page.
+ * Fetches and renders the matches with the user's data, including matching users.
  * Requires session data, validated by the `attachSessionData` middleware.
  * 
  * @param {Object} req - The request object.
  * @param {Object} res - The response object.
- * @param {string} req.query.message - Optional message to display on the dashboard page.
+ * @param {string} req.query.message - Optional message to display on the matches page.
  * @param {string} req.query.type - Optional type to define the message style (success/error).
  * @param {string} req.userId - The ID of the currently logged-in user, extracted from session data.
  * 
  * @throws {Error} If any error occurs while fetching user data or matching users.
  * 
- * @returns {void} Renders the "dashboard" view with user and matching user data.
+ * @returns {void} Renders the "myMatches" view with user and matching user data.
  */
 app.get("/myMatches", attachSessionData, async (req, res) => {
     try {
         const message = req.query.message
         const type = req.query.type
-        const userId = req.userId
+        const userId = req.userIds
         const user = await business.getUserById(userId)
 
         res.render("myMatches")
 
     } catch (err) {
 
-        console.error("Error fetching dashboard data:", err.message)
-        res.status(500).send("An error occurred while loading your dashboard.")
+        console.error("Error fetching matches data:", err.message)
+        res.status(500).send("An error occurred while loading your matches.")
 
     }
 })
@@ -539,7 +548,7 @@ app.get("/logout", async (req, res) => {
     } catch (error) {
 
         console.error("Logout error:", error.message)
-        res.redirect("/dashboard?message=" + encodeURIComponent("An unexpected error occurred. Please try again."))
+        res.redirect("/index?message=" + encodeURIComponent("An unexpected error occurred. Please try again."))
 
     }
 })
