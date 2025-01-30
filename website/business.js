@@ -341,24 +341,44 @@ async function updatePassword(email, newPassword) {
  * @throws Will propagate any errors from the persistence layer.
  */
 async function getProfile(userId) {
-    const user = await persistence.getUserById(userId);
-    if (!user) {
-        throw new Error("User not found.");
-    }
+    try {
+        const user = await persistence.getUserById(userId);
+        if (!user) {
+            throw new Error("User not found.");
+        }
 
-    // Return the data needed for the profile view
-    return {
-        username: user.username,
-        email: user.email,
-        nationality: user.nationality || "Not specified",
-        country: user.country || "Not specified",
-        city: user.city || "Not specified",
-        knownLanguages: user.knownLanguages || [],
-        needs: user.needs || [],
-        studyField: user.field || "Not specified",
-        educationLevel: user.category || "Not specified",
-        gpa: user.gpa || "Not specified"
-    };
+        if (user.accountType === "Student") {
+            return {
+                username: user.username,
+                email: user.email,
+                nationality: user.nationality || "Not specified",
+                country: user.country || "Not specified",
+                city: user.city || "Not specified",
+                knownLanguages: user.languages || [],
+                educationLevel: user.education || "Not specified",
+                studyField: user.field || "Not specified",
+                gpa: user.gpa || "Not specified",
+                needs: user.needs || [],
+                accountType: user.accountType,
+            };
+        } else if (user.accountType === "University") {
+            return {
+                username: user.username,
+                email: user.email,
+                country: user.country || "Not specified",
+                city: user.city || "Not specified",
+                programs: user.programs || [],
+                minGPA: user.minGPA || "Not specified",
+                services: user.services || [],
+                accountType: user.accountType,
+            };
+        } else {
+            throw new Error("Invalid account type.");
+        }
+    } catch (error) {
+        logError("Error fetching profile:", error);
+        throw error;
+    }
 }
 
 

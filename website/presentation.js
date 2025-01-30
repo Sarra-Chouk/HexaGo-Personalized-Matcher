@@ -9,15 +9,17 @@ let app = express()
 
 const hbs = handlebars.create({
     helpers: {
+        eq: (arg1, arg2) => arg1 === arg2, // Add this helper
         ifEquals: (arg1, arg2, options) => {
-            return (arg1 === arg2) ? options.fn(this) : options.inverse(this)
+            return (arg1 === arg2) ? options.fn(this) : options.inverse(this);
         },
-        formatDate: function(date) {
-            const options = { hour: '2-digit', minute: '2-digit', hour12: true }
-            return new Date(date).toLocaleTimeString([], options)
+        formatDate: function (date) {
+            const options = { hour: '2-digit', minute: '2-digit', hour12: true };
+            return new Date(date).toLocaleTimeString([], options);
         }
     }
-})
+});
+
 
 app.set("views", __dirname + "/templates")
 app.set("view engine", "handlebars")
@@ -113,8 +115,8 @@ app.post("/sign-up-student", async (req, res) => {
 
         const accountType = "Student"
         user = {
-            username, email, password, languages, nationality, country, city, needs, 
-            accountType, education, field, gpa
+            username, email, password, languages, nationality, country, city, education, field,  
+            gpa, needs, accountType
         }
         console.log(user)
         await business.createUser(user)
@@ -161,81 +163,81 @@ app.get("/sign-up-university", async (req, res) => {
  * @returns {void} Redirects to the login page with a success message upon successful registration.
  */
 app.post("/sign-up-university", async (req, res) => {
-    let { username, email, password, confirmPassword, country, city, minGPA, services
-    } = req.body
+    let { username, email, password, confirmPassword, country, city, minGPA, services } = req.body;
 
-    console.log(req.body)
+    console.log("Raw request body:", req.body); 
+
     let programs = [];
 
-    // Loop through req.body to extract all program groups
     Object.keys(req.body).forEach(key => {
-        const match = key.match(/^program(\d+)$/); // Match program0, program1, etc.
-        if (match) {
-            const index = parseInt(match[1]); 
+        const programMatch = key.match(/^program(\d+)$/); 
+        const fieldMatch = key.match(/^field(\d+)$/); 
+        const languageMatch = key.match(/^languages(\d+)$/); 
 
-            // Ensure a group exists for this index
-            programs[index] = {
-                program: req.body[key],
-                field: "",  // Placeholder, will be updated below
-                languages: []
-            };
+        if (programMatch) {
+            const index = parseInt(programMatch[1]);
+            programs[index] = programs[index] || {}; 
+            programs[index].program = req.body[key];
         }
 
-        const fieldMatch = key.match(/^field(\d+)$/); // Match field0, field1, etc.
         if (fieldMatch) {
             const index = parseInt(fieldMatch[1]);
-            if (programs[index]) {
-                programs[index].field = req.body[key]; // Assign field
-            }
+            programs[index] = programs[index] || {}; 
+            programs[index].field = req.body[key];
         }
 
-        const languageMatch = key.match(/^languages(\d+)$/); // Match languages0, languages1, etc.
         if (languageMatch) {
             const index = parseInt(languageMatch[1]);
-            if (programs[index]) {
-                programs[index].languages = [].concat(req.body[key]); // Ensure languages is an array
-            }
+            programs[index] = programs[index] || {}; 
+            programs[index].languages = [].concat(req.body[key]);
         }
     });
 
-    console.log("programs:" + programs )
+    programs = programs.filter(program => program);
+
+    console.log("Processed programs:", programs); 
 
     services = services ? (Array.isArray(services) ? services : services.split(",")) : [];
-    services = services.map(services => services.trim());
+    services = services.map(service => service.trim());
 
     try {
-
-        const isEmailValid = await business.validateEmail(email)
-        const isPasswordValid = await business.validatePassword(password)
+        const isEmailValid = await business.validateEmail(email);
+        const isPasswordValid = await business.validatePassword(password);
 
         if (!isEmailValid) {
-            throw new Error("Invalid or already registered email address.")
+            throw new Error("Invalid or already registered email address.");
         }
 
         if (!isPasswordValid) {
-            throw new Error("Password must be at least 8 characters, include a number, a special character, an uppercase and lowercase letter.")
+            throw new Error("Password must be at least 8 characters, include a number, a special character, an uppercase and lowercase letter.");
         }
 
-        if (confirmPassword.trim() != password.trim()) {
-            throw new Error("The passwords you entered do not match. Please ensure both password fields are the same.")
+        if (confirmPassword.trim() !== password.trim()) {
+            throw new Error("The passwords you entered do not match. Please ensure both password fields are the same.");
         }
 
-        const accountType = "University"
-        user = {
-            username, email, password, country, city, services, minGPA, programs, accountType
-        }
-        await business.createUser(user)
-        res.redirect(`/login?message=${encodeURIComponent("Registration successful.")}&type=success&accountType=${accountType}`)
+        const accountType = "University";
+        const user = {
+            username,
+            email,
+            password,
+            country,
+            city,
+            programs,
+            minGPA,
+            services,
+            accountType,
+        };
 
+        console.log("User object to be saved:", user); 
+
+        await business.createUser(user);
+        res.redirect(`/login?message=${encodeURIComponent("Registration successful.")}&type=success&accountType=${accountType}`);
+    } catch (error) {
+        console.error("Signup error:", error.message);
+        res.redirect(`/sign-up-university?message=${encodeURIComponent(error.message)}`);
     }
-
-    catch (error) {
-
-        console.error("Signup error:", error.message)
-        res.redirect("/sign-up-university?message=" + encodeURIComponent(error.message))
-
-    }
-})
+});
 
 
 /**
@@ -399,27 +401,37 @@ app.get("/login", (req, res) => {
  * @returns {void} Redirects to the login page with a success or error message.
  */
 app.post("/login", async (req, res) => {
-    const { email, password, accountType } = req.body
+    const { email, password, accountType } = req.body;
 
-    console.log(accountType)
     try {
-
-        const loginResult = await business.checkLogin(email, password)
+        const loginResult = await business.checkLogin(email, password);
 
         if (!loginResult.isValid) {
-            return res.redirect(`/login?message=${encodeURIComponent(loginResult.message)}&type=error`)
+            return res.redirect(`/login?message=${encodeURIComponent(loginResult.message)}&type=error`);
         }
 
-        const sessionKey = await business.startSession(loginResult.userId)
-        res.cookie("sessionKey", sessionKey, { httpOnly: true })
-        res.redirect(`/myMatches/?message=` + encodeURIComponent("Welcome to HexaGo!") + "&type=success")
-
+        const sessionKey = await business.startSession(loginResult.userId);
+        res.cookie("sessionKey", sessionKey, { httpOnly: true });
+        res.redirect("/dashboard"); // Redirect to the dashboard
     } catch (error) {
-
-        console.error("Login error:", error.message)
-        res.redirect("/login?message=" + encodeURIComponent("An unexpected error occurred. Please try again."))
+        console.error("Login error:", error.message);
+        res.redirect("/login?message=" + encodeURIComponent("An unexpected error occurred. Please try again."));
     }
-})
+});
+
+
+app.get("/dashboard", attachSessionData, async (req, res) => {
+    try {
+        const userId = req.userId;
+        const user = await business.getUserById(userId); // Fetch user data
+        const accountType = user.accountType; // Get account type
+
+        res.render("dashboard", { accountType, user }); // Pass account type to the template
+    } catch (error) {
+        console.error("Error rendering dashboard:", error.message);
+        res.status(500).send("An error occurred while loading the dashboard.");
+    }
+});
 
 
 /**
@@ -474,48 +486,19 @@ async function attachSessionData(req, res, next) {
  * 
  * @returns {void} Renders the "myMatches" view with user and matching user data.
  */
-app.get("/api/matches", attachSessionData, async (req, res) => {
-    try {
-        const message = req.query.message
-        const type = req.query.type
-        const userId = req.userIds
-        const user = await business.getUserById(userId)
-
-        if (!user || user.type !== "University") {
-            return res.status(403).json({ error: "Only universities can access this route." });
-        }
-
-        const matches = await business.getUniversityMatches(user);
-        res.json({ matches });
-
-        console.error("Error fetching matches data:", err.message)
-        res.status(500).send("An error occurred while loading your matches.")
-
-    }
-});
-
-
-
 app.get("/profile", attachSessionData, async (req, res) => {
     try {
         const userId = req.userId;
         const profile = await business.getProfile(userId);
 
-        // Render the profile view and pass all the required data
-        res.render("profile", {
-            username: profile.username,
-            email: profile.email,
-            profilePicture: profile.profilePicture,
-            badges: profile.badges,
-            nationality: profile.nationality,
-            country: profile.country,
-            city: profile.city,
-            knownLanguages: profile.knownLanguages,
-            needs: profile.needs,
-            educationLevel: profile.educationLevel,
-            studyField: profile.studyField,
-            gpa: profile.gpa
-        });
+        // Render the appropriate profile template based on account type
+        if (profile.accountType === "Student") {
+            res.render("studentProfile", { profile });
+        } else if (profile.accountType === "University") {
+            res.render("universityProfile", { profile });
+        } else {
+            throw new Error("Invalid account type.");
+        }
     } catch (error) {
         console.error("Error rendering profile:", error.message);
         res.status(500).send("An error occurred while loading your profile.");
