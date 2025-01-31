@@ -15,24 +15,24 @@
             height: 100%;
             width: 100%;
             margin: 0;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, rgb(202, 160, 247), rgb(151, 156, 243),  rgb(202, 160, 247));
+            font-family: ;
             display: flex;
             flex-direction: row-reverse;
             flex-wrap: wrap;
             align-items: center;
             justify-content: center;
             overflow: auto;
-        }
+        } 
 
         .header {
             width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: rgb(189, 177, 250);
-            padding: 10px 20px;
-            box-shadow: 0px 2px 5px rgba(199, 208, 255, 0.1);
+            background-color:rgb(92, 59, 154);
+            padding: 20px 20px;
+            box-shadow: 50px rgba(199, 208, 255, 0.1);
             position: relative;
             top: 0;
             z-index: 1000;
@@ -40,7 +40,7 @@
 
         .header a {
             text-decoration: none;
-            color: rgb(31, 17, 87);
+            color: rgb(245, 244, 249);
             font-weight: bold;
         }
 
@@ -63,19 +63,22 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: rgba(211, 202, 255, 0.9);
-            padding: 10px 20px;
+            background-color: rgb(92, 59, 154);
+            padding: 20px 20px;
             box-shadow: 0px -2px 5px rgba(14, 10, 45, 0.1);
         }
 
         .footer a {
             text-decoration: none;
-            color: rgb(31, 17, 87);
+            color: rgb(227, 220, 255);
             font-weight: bold;
         }
 
         .footer a:hover {
             text-decoration: underline;
+        }
+        .p a {
+            color: rgb(227, 220, 255);
         }
     </style>
 
@@ -96,8 +99,8 @@
     </main>
 
     <footer class="footer">
-        <div><a href="/index">HexaGo Web</a> &copy; 2025</div>
-        <div class="ms-auto">Powered by <a href="#">HEXA</a></div>
+        <div><a href="/index">HexaGo Web</a><span style = "color: rgb(227, 220, 255);"> &copy; 2025</span></div>
+        <div class="ms-auto"><span style = "color: rgb(227, 220, 255); text-align: "left";">Powered by <a href="#">HEXA</a></span></div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

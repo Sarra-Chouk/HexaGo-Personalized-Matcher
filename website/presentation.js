@@ -16,7 +16,11 @@ const hbs = handlebars.create({
         formatDate: function (date) {
             const options = { hour: '2-digit', minute: '2-digit', hour12: true };
             return new Date(date).toLocaleTimeString([], options);
+        },
+        increment: function (value) {
+            return value + 1;
         }
+
     }
 });
 
@@ -399,6 +403,7 @@ app.get("/login", (req, res) => {
  * @throws {Error} If any error occurs during the login process.
  * 
  * @returns {void} Redirects to the login page with a success or error message.
+ * @returns {void} Redirects to the login page with a success or error message.
  */
 app.post("/login", async (req, res) => {
     const { email, password, accountType } = req.body;
@@ -474,16 +479,20 @@ async function attachSessionData(req, res, next) {
 /**
  * Route handler for the "/myMatches" page.
  * Fetches and renders the matches with the user's data, including matching users.
+ * Route handler for the "/myMatches" page.
+ * Fetches and renders the matches with the user's data, including matching users.
  * Requires session data, validated by the `attachSessionData` middleware.
  * 
  * @param {Object} req - The request object.
  * @param {Object} res - The response object.
+ * @param {string} req.query.message - Optional message to display on the matches page.
  * @param {string} req.query.message - Optional message to display on the matches page.
  * @param {string} req.query.type - Optional type to define the message style (success/error).
  * @param {string} req.userId - The ID of the currently logged-in user, extracted from session data.
  * 
  * @throws {Error} If any error occurs while fetching user data or matching users.
  * 
+ * @returns {void} Renders the "myMatches" view with user and matching user data.
  * @returns {void} Renders the "myMatches" view with user and matching user data.
  */
 app.get("/profile", attachSessionData, async (req, res) => {
