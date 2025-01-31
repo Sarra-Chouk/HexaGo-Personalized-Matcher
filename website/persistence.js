@@ -1,9 +1,9 @@
 /**
- * Logs informational messages to the console with optional details.
+ * Logs an informational message to the console.
  *
  * @function logInfo
- * @param {string} message - The informational message to log.
- * @param {Object} [details={}] - Additional details to include with the log message.
+ * @param {string} message - The message to log.
+ * @param {Object} [details={}] - Optional additional details to include.
  */
 function logInfo(message, details = {}) {
     console.log(`[INFO] ${message}`, Object.keys(details).length ? details : '')
@@ -11,11 +11,11 @@ function logInfo(message, details = {}) {
 
 
 /**
- * Logs error messages to the console with optional error details.
+ * Logs an error message to the console.
  *
  * @function logError
  * @param {string} message - The error message to log.
- * @param {Error|string} error - The error object or message to include with the log.
+ * @param {Error|string} error - The error object or string message.
  */
 function logError(message, error) {
     console.error(`[ERROR] ${message}`, error?.message || error)
@@ -28,21 +28,21 @@ let db = undefined
 let users = undefined
 let sessions = undefined
 
+
 //sarra : mongodb+srv://60300372:INFS3201@infs3201.9arv1.mongodb.net/
 //manahil : mongodb+srv://60302181:12class34@cluster0.yrpo2.mongodb.net/
-
 /**
  * Establishes a connection to the MongoDB database if not already connected.
- * Initializes the database and its collections for use.
+ * Initializes the database and collections.
  *
  * @async
  * @function connectDatabase
- * @throws Will log an error if the connection to the database fails.
+ * @throws Will log an error if the database connection fails.
  */
 async function connectDatabase() {
     if (!client) {
         try {
-            client = new MongoClient('mongodb+srv://60302181:12class34@cluster0.yrpo2.mongodb.net/')
+            client = new MongoClient('mongodb+srv://60300372:INFS3201@infs3201.9arv1.mongodb.net/')
             await client.connect()
             db = client.db("HexaGo")
             users = db.collection("users")
@@ -60,9 +60,10 @@ async function connectDatabase() {
  *
  * @async
  * @function updateUserField
- * @param {string} email - The email address of the user to update.
- * @param {Object} updates - An object containing the fields to update and their new values.
- * @throws Will log an error if the update operation fails.
+ * @param {string} email - The email of the user to update.
+ * @param {Object} updates - The fields and values to update.
+ * @returns {Promise<void>}
+ * @throws Will log an error if the update fails.
  */
 async function updateUserField(email, updates) {
     try {
@@ -86,9 +87,9 @@ async function updateUserField(email, updates) {
  *
  * @async
  * @function getUserById
- * @param {string} userId - The unique ID of the user to retrieve.
- * @returns {Object|null} The user object if found, or `null` if not found.
- * @throws Will log an error if the retrieval operation fails.
+ * @param {string} userId - The unique user ID.
+ * @returns {Promise<Object|null>} The user object if found, otherwise `null`.
+ * @throws Will log an error if the operation fails.
  */
 async function getUserById(userId) {
     try {
@@ -105,14 +106,15 @@ async function getUserById(userId) {
     }
 }
 
+
 /**
- * Retrieves a user from the database by their email address.
+ * Retrieves a user from the database by their type.
  *
  * @async
- * @function getUserByEmail
- * @param {string} email - The email address of the user to retrieve.
- * @returns {Object|null} The user object if found, or `null` if not found.
- * @throws Will log an error if the retrieval operation fails.
+ * @function getUserByType
+ * @param {string} type - The user type to search for.
+ * @returns {Promise<Object|null>} The user object if found, otherwise `null`.
+ * @throws Will log an error if the operation fails.
  */
 async function getUserByType(type) {
     try {
@@ -129,14 +131,15 @@ async function getUserByType(type) {
     }
 }
 
+
 /**
  * Retrieves a user from the database by their email address.
  *
  * @async
  * @function getUserByEmail
- * @param {string} email - The email address of the user to retrieve.
- * @returns {Object|null} The user object if found, or `null` if not found.
- * @throws Will log an error if the retrieval operation fails.
+ * @param {string} email - The email address to search for.
+ * @returns {Promise<Object|null>} The user object if found, otherwise `null`.
+ * @throws Will log an error if the operation fails.
  */
 async function getUserByEmail(email) {
     try {
@@ -184,9 +187,9 @@ async function getUserByUsername(username) {
  *
  * @async
  * @function createUser
- * @param {Object} user - The user object to be inserted into the database.
- * @returns {string|null} The ID of the newly created user, or `null` if the operation fails.
- * @throws Will log an error if the user creation operation fails.
+ * @param {Object} user - The user object to insert.
+ * @returns {Promise<string|null>} The new user ID, or `null` if creation fails.
+ * @throws Will log an error if the creation fails.
  */
 async function createUser(user) {
     try {
@@ -202,13 +205,13 @@ async function createUser(user) {
 
 
 /**
- * Stores a key with an expiry time for a specific user in the database.
+ * Stores a key with an expiry time for a user in the database.
  *
  * @async
  * @function storeKey
- * @param {string} email - The email of the user to associate with the key.
- * @param {string} key - The key to be stored.
- * @throws Will log an error if the key storage operation fails.
+ * @param {string} email - The user's email.
+ * @param {string} key - The key to store.
+ * @throws Will log an error if the operation fails.
  */
 async function storeKey(email, key) {
     try {
@@ -228,13 +231,13 @@ async function storeKey(email, key) {
 
 
 /**
- * Retrieves a user from the database by a specific key and type.
+ * Retrieves a user by a reset key.
  *
  * @async
  * @function getUserByKey
- * @param {string} key - The key to search for.
- * @returns {Object|null} The user object if found and the key is valid, or `null` if not found or expired.
- * @throws Will log an error if the retrieval operation fails.
+ * @param {string} key - The reset key to search for.
+ * @returns {Promise<Object|null>} The user object if found and valid, otherwise `null`.
+ * @throws Will log an error if the operation fails.
  */
 async function getUserByKey(key) {
     try {
@@ -281,14 +284,14 @@ async function clearKey(email) {
 
 
 /**
- * Updates the password for a user in the database.
+ * Updates a user's password in the database.
  *
  * @async
  * @function updatePassword
- * @param {string} email - The email of the user whose password should be updated.
- * @param {string} newPassword - The new password to set for the user.
- * @returns {boolean} `true` if the password was successfully updated, `false` otherwise.
- * @throws Will log an error if the password update operation fails.
+ * @param {string} email - The user's email.
+ * @param {string} newPassword - The new hashed password.
+ * @returns {Promise<boolean>} `true` if updated, `false` if no user was found.
+ * @throws Logs an error if the update fails.
  */
 async function updatePassword(email, newPassword) {
     try {
@@ -308,11 +311,15 @@ async function updatePassword(email, newPassword) {
 
 
 /**
- * Saves a session object to the database.
+ * Saves a new session to the database.
  *
  * @async
  * @function saveSession
- * @param {Object} session - The session object to be saved, including properties like sessionKey and other metadata.
+ * @param {Object} session - The session object to be stored in the database.
+ * @param {string} session.sessionKey - A unique key identifying the session.
+ * @param {Date} session.expiry - The expiration date and time of the session.
+ * @param {Object} session.data - The session data containing user-related information.
+ * @returns {Promise<void>} Resolves when the session is successfully saved.
  * @throws Will log an error if the session saving operation fails.
  */
 async function saveSession(session) {
@@ -327,12 +334,12 @@ async function saveSession(session) {
 
 
 /**
- * Retrieves a session from the database by its session key.
+ * Retrieves a session from the database using its session key.
  *
  * @async
  * @function getSession
- * @param {string} key - The session key used to retrieve the session.
- * @returns {Object|null} The session data if found and valid, or `null` if not found or expired.
+ * @param {string} key - The session key used to retrieve the session data.
+ * @returns {Promise<Object|null>} The session data if found and valid, otherwise `null` if not found or expired.
  * @throws Will log an error if the session retrieval operation fails.
  */
 async function getSession(key) {
@@ -356,12 +363,12 @@ async function getSession(key) {
 
 
 /**
- * Deletes a session from the database by its session key.
+ * Deletes a session from the database.
  *
  * @async
  * @function deleteSession
- * @param {string} key - The session key of the session to be deleted.
- * @throws Will log an error if the session deletion operation fails.
+ * @param {string} key - The session key to delete.
+ * @throws Will log an error if the operation fails.
  */
 async function deleteSession(key) {
     try {
@@ -379,13 +386,13 @@ async function deleteSession(key) {
 
 
 /**
- * Updates the data of an existing session in the database by its session key.
+ * Updates an existing session in the database.
  *
  * @async
  * @function updateSession
- * @param {string} key - The session key of the session to be updated.
- * @param {Object} data - The data to be merged into the existing session data.
- * @throws Will log an error if the session update operation fails.
+ * @param {string} key - The session key to update.
+ * @param {Object} data - The updated session data.
+ * @throws Will log an error if the update fails.
  */
 async function updateSession(key, data) {
     try {
