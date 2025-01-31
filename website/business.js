@@ -3,53 +3,54 @@ const persistence = require('./persistence')
 const crypto = require("crypto")
 const fs = require('fs').promises;
 
+
 /**
- * Retrieves a user by their unique ID using the persistence layer.
+ * Fetches a user by ID from the persistence layer.
  *
  * @async
  * @function getUserById
- * @param {string} userId - The unique ID of the user to retrieve.
- * @returns {Object|null} The user object if found, or `null` if not found.
- * @throws Will propagate any errors from the persistence layer.
+ * @param {string} userId - The unique user ID.
+ * @returns {Promise<Object|null>} The user object if found, otherwise `null`.
  */
 async function getUserById(userId) {
     return await persistence.getUserById(userId)
 }
 
+
 /**
- * Retrieves a user by their email address using the persistence layer.
+ * Fetches a user by type from the persistence layer.
  *
  * @async
- * @function getUserByEmail
- * @param {string} tyoe - The type of the user to retrieve (University of Student).
- * @returns {Object|null} The user object if found, or `null` if not found.
- * @throws Will propagate any errors from the persistence layer.
+ * @function getUserByType
+ * @param {string} type - The user type (e.g., "University" or "Student").
+ * @returns {Promise<Object|null>} The user object if found, otherwise `null`.
  */
 async function getUserByType(type) {
     return await persistence.getUserByType(type)
 }
 
+
 /**
- * Retrieves a user by their email address using the persistence layer.
+ * Fetches a user by email from the persistence layer.
  *
  * @async
  * @function getUserByEmail
- * @param {string} email - The email address of the user to retrieve.
- * @returns {Object|null} The user object if found, or `null` if not found.
- * @throws Will propagate any errors from the persistence layer.
+ * @param {string} email - The user's email.
+ * @returns {Promise<Object|null>} The user object if found, otherwise `null`.
  */
 async function getUserByEmail(email) {
     return await persistence.getUserByEmail(email)
 }
 
+
 /**
- * Validates an email address format and checks if it is not already in use.
+ * Validates an email format and checks if it's already registered.
  *
  * @async
  * @function validateEmail
  * @param {string} email - The email address to validate.
- * @returns {boolean} `true` if the email is valid and not in use, `false` otherwise.
- * @throws Will propagate any errors from the `getUserByEmail` function.
+ * @returns {Promise<boolean>} `true` if valid and not in use, otherwise `false`.
+ * @throws Will propagate errors from `getUserByEmail`.
  */
 async function validateEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -57,33 +58,36 @@ async function validateEmail(email) {
     return emailRegex.test(email) && !user
 }
 
+
 /**
- * Checks if an email address already exists in the database using the persistence layer.
+ * Checks if an email already exists in the database.
  *
  * @async
  * @function checkEmailExists
- * @param {string} email - The email address to check.
- * @returns {boolean} `true` if the email exists, `false` otherwise.
- * @throws Will propagate any errors from the persistence layer.
+ * @param {string} email - The email to check.
+ * @returns {Promise<boolean>} `true` if the email exists, otherwise `false`.
+ * @throws Will propagate errors from the persistence layer.
  */
 async function checkEmailExists(email) {
     const user = await persistence.getUserByEmail(email)
     return !!user
 }
 
+
 /**
- * Validates if a username exists in the database using the persistence layer.
+ * Validates if a username exists in the database.
  *
  * @async
  * @function validateUsername
- * @param {string} username - The username to validate.
- * @returns {Object|null} The user object if the username exists, or `null` if it does not.
- * @throws Will propagate any errors from the persistence layer.
+ * @param {string} username - The username to check.
+ * @returns {Promise<Object|null>} The user object if found, otherwise `null`.
+ * @throws Will propagate errors from the persistence layer.
  */
-
 async function validateUsername(username) {
     return await persistence.getUserByUsername(username)
 }
+
+
 /**
  * Validates if a password meets security criteria.
  *
@@ -114,6 +118,7 @@ async function validatePassword(password) {
     )
 }
 
+
 /**
  * Creates a salted hash for a given password.
  *
@@ -130,6 +135,7 @@ function createSaltedHash(password) {
     return salt + ":" + hash.digest('hex')
 }
 
+
 /**
  * Creates a new user in the system with the provided details.
  *
@@ -144,7 +150,6 @@ async function createUser(userData) {
     const hashedPassword = createSaltedHash(userData.password)
     userData.password = hashedPassword
     await persistence.createUser(userData)
-
 }
 
 
@@ -293,7 +298,6 @@ async function sendPasswordResetEmail(email, resetKey) {
  * @description This function validates the new password, checks the reset key, ensures passwords match, 
  * hashes the new password, and updates it in the database. It also clears the reset key after use.
  */
-
 async function resetPassword(resetKey, newPassword, confirmedPassword) {
     if (! await validatePassword(newPassword)) {
         return { isValid: false, message: "Password must be at least 8 characters, include a number, a special character, an uppercase and lowercase letter." }
@@ -332,19 +336,28 @@ async function updatePassword(email, newPassword) {
 }
 
 
+/**
+ * Passes a user field update request to the persistence layer.
+ *
+ * @async
+ * @function updateUserField
+ * @param {string} email - The user's email.
+ * @param {Object} updates - The fields and values to update.
+ * @returns {Promise<void>} Resolves when the update is complete.
+ */
 async function updateUserField(email, updates) {
     await persistence.updateUserField(email, updates)
 }
 
 
 /**
- * Retrieves a user's profile information by their ID.
+ * Retrieves a user's profile based on their ID.
  *
  * @async
  * @function getProfile
- * @param {string} userId - The unique ID of the user to retrieve.
- * @returns {Object|null} An object containing user profile data if found, or `null` if not found.
- * @throws Will propagate any errors from the persistence layer.
+ * @param {string} userId - The unique ID of the user.
+ * @returns {Promise<Object>} The user's profile data.
+ * @throws Will log an error and throw an exception if the user is not found or has an invalid account type.
  */
 async function getProfile(userId) {
     try {
@@ -389,15 +402,13 @@ async function getProfile(userId) {
 
 
 /**
- * Sends a message from one user to another.
+ * Generates and stores a CSRF token for a session.
  *
  * @async
- * @function sendMessage
- * @param {string} senderId - The ID of the user sending the message.
- * @param {string} receiverId - The ID of the user receiving the message.
- * @param {string} message - The content of the message.
- * @returns {Object} The result of the save operation.
- * @throws Will propagate any errors from the persistence layer.
+ * @function generateFormToken
+ * @param {string} key - The session key associated with the user.
+ * @returns {Promise<string>} The generated CSRF token.
+ * @throws Will propagate errors if session retrieval or update fails.
  */
 async function generateFormToken(key) {
     let token = crypto.randomUUID()
@@ -423,6 +434,19 @@ async function cancelToken(key) {
     await persistence.updateSession(key, sessionData)
 }
 
+
+/**
+ * Retrieves and stores matched students for a university.
+ *
+ * @async
+ * @function getMatches
+ * @param {string} loggedInUniversityEmail - The university's email.
+ * @returns {Promise<Array<Object>|null>} A list of matched students or `null` if no matches are found.
+ * @throws Logs an error if reading or processing recommendations fails.
+ * 
+ * @description Reads `recommendations.json` to find student matches for the given university.
+ * Saves the matches to the database under the university's record and returns the list.
+ */
 async function getMatches(loggedInUniversityEmail) {
     try {
         const filePath = 'recommendations.json'; 
