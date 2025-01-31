@@ -1,0 +1,172 @@
+{
+    "Carnegie Mellon University Qatar": {
+        "university_email": "contact@cmuq.edu.qa",
+        "students": [
+            {
+                "student_name": "Ali Hassan",
+                "student_email": "ali.hassan@gmail.com",
+                "similarity_score": 0.8280478119850159
+            },
+            {
+                "student_name": "Sara Mohamed",
+                "student_email": "sara.mohamed@gmail.com",
+                "similarity_score": 0.7595143914222717
+            },
+            {
+                "student_name": "Ahmed Karim",
+                "student_email": "ahmed.karim@gmail.com",
+                "similarity_score": 0.7429952025413513
+            }
+        ]
+    },
+    "University of Doha for Science and technology": {
+        "university_email": "contact@udst.edu.qa",
+        "students": [
+            {
+                "student_name": "Ali Hassan",
+                "student_email": "ali.hassan@gmail.com",
+                "similarity_score": 0.8008090853691101
+            },
+            {
+                "student_name": "Sara Mohamed",
+                "student_email": "sara.mohamed@gmail.com",
+                "similarity_score": 0.726556658744812
+            },
+            {
+                "student_name": "Ahmed Karim",
+                "student_email": "ahmed.karim@gmail.com",
+                "similarity_score": 0.7080255150794983
+            }
+        ]
+    },
+    "Qatar University": {
+        "university_email": "contact@qu.edu.qa",
+        "students": [
+            {
+                "student_name": "Ali Hassan",
+                "student_email": "ali.hassan@gmail.com",
+                "similarity_score": 0.7930856347084045
+            },
+            {
+                "student_name": "Sara Mohamed",
+                "student_email": "sara.mohamed@gmail.com",
+                "similarity_score": 0.782906711101532
+            },
+            {
+                "student_name": "Ahmed Karim",
+                "student_email": "ahmed.karim@gmail.com",
+                "similarity_score": 0.787378191947937
+            }
+        ]
+    },
+    "Northwestern University Qatar": {
+        "university_email": "contact@nu.edu.qa",
+        "students": [
+            {
+                "student_name": "Ali Hassan",
+                "student_email": "ali.hassan@gmail.com",
+                "similarity_score": 0.7715134620666504
+            },
+            {
+                "student_name": "Sara Mohamed",
+                "student_email": "sara.mohamed@gmail.com",
+                "similarity_score": 0.8223394155502319
+            },
+            {
+                "student_name": "Ahmed Karim",
+                "student_email": "ahmed.karim@gmail.com",
+                "similarity_score": 0.8504359126091003
+            }
+        ]
+    },
+    "McGill University": {
+        "university_email": "contact@mu.edu.ca",
+        "students": [
+            {
+                "student_name": "Amine Youssef",
+                "student_email": "amine.youssef@gmail.com",
+                "similarity_score": 0.6758368015289307
+            }
+        ]
+    },
+    "University of Toronto": {
+        "university_email": "contact@ut.edu.ca",
+        "students": [
+            {
+                "student_name": "Amine Youssef",
+                "student_email": "amine.youssef@gmail.com",
+                "similarity_score": 0.6632264852523804
+            },
+            {
+                "student_name": "Adham Mohamd",
+                "student_email": "adham.mohamd@gmail.com",
+                "similarity_score": 0.7047718167304993
+            }
+        ]
+    },
+    "Ludwig Maximilian University of Munich": {
+        "university_email": "contact@lmum.edu.ge",
+        "students": [
+            {
+                "student_name": "Mei Omar",
+                "student_email": "mei.omer@gmail.com",
+                "similarity_score": 0.7305268049240112
+            }
+        ]
+    },
+    "University of Heidelberg": {
+        "university_email": "contact@uh.edu.ge",
+        "students": [
+            {
+                "student_name": "Mei Omar",
+                "student_email": "mei.omer@gmail.com",
+                "similarity_score": 0.6375852227210999
+            }
+        ]
+    },
+    "Queen Mary Unversity of London": {
+        "university_email": "contact@qmul.edu.qa",
+        "students": [
+            {
+                "student_name": "Nour Ibrahim",
+                "student_email": "nour.ibrahim@gmail.com",
+                "similarity_score": 0.6737432479858398
+            },
+            {
+                "student_name": "Aisha Ahmed",
+                "student_email": "aisha.ahmed@gmail.com",
+                "similarity_score": 0.6748043298721313
+            }
+        ]
+    },
+    "Ankara University": {
+        "university_email": "contact@au.edu.tu",
+        "students": [
+            {
+                "student_name": "Khalid Moussa",
+                "student_email": "khalid.moussa@gmail.com",
+                "similarity_score": 0.6392093896865845
+            },
+            {
+                "student_name": "Fatima Anouar",
+                "student_email": "fatima.anouar@gmail.com",
+                "similarity_score": 0.7135106325149536
+            }
+        ]
+    },
+    "Istanbul University": {
+        "university_email": "contact@iu.edu.tu",
+        "students": [
+            {
+                "student_name": "Khalid Moussa",
+                "student_email": "khalid.moussa@gmail.com",
+                "similarity_score": 0.6066228747367859
+            },
+            {
+                "student_name": "Fatima Anouar",
+                "student_email": "fatima.anouar@gmail.com",
+                "similarity_score": 0.6992459297180176
+            }
+        ]
+    }
+}

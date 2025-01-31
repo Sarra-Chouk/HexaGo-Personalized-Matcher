@@ -40,7 +40,7 @@ def clean_degree_fields(degree_fields):
                 flattened.append(f"{level}: {field} ({', '.join(languages)})")
         return ", ".join(flattened)
     except json.JSONDecodeError:
-        return degree_fields  # Return as-is if not valid JSON
+        return degree_fields  
 
 
 def preprocess_data(students_df, universities_df):

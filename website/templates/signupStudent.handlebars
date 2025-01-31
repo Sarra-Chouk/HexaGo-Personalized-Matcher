@@ -339,20 +339,21 @@
         
 
         const nationalities = [
-            "American", "British", "Canadian", "French", "German", "Indian", "Chinese",
-            "Japanese", "Brazilian", "Mexican", "Australian", "Italian", "Spanish"
+            "Palestinian", "Syrian", "Sudanese", "Lebanese", "Jordanian", "Somali"
         ];
         const countries = [
-            "United States", "Canada", "United Kingdom", "France", "Germany", "India", "China",
-            "Japan", "Brazil", "Mexico", "Australia", "Italy", "Spain", "South Africa", "Russia"
+            "Qatar", "Canada", "Germany", "England", "Turkey", "United States",
+            "France", "China", "Japan", "Mexico", "Spain"
         ];
+
+
         const citiesByCountry = {
-            "United States": ["New York", "Los Angeles", "Chicago", "Houston"],
             "Canada": ["Toronto", "Vancouver", "Montreal"],
-            "United Kingdom": ["London", "Manchester", "Birmingham"],
+            "England": ["London", "York", "Birmingham"],
             "France": ["Paris", "Lyon", "Marseille"],
             "Germany": ["Berlin", "Munich", "Hamburg"],
             "India": ["Delhi", "Mumbai", "Bangalore"],
+            "Turkey": ["Istanbul", "Cappadocia", "Izmir", "Ankara"],
             "China": ["Beijing", "Shanghai", "Shenzhen"],
             "Japan": ["Tokyo", "Osaka", "Kyoto"],
             "Brazil": ["São Paulo", "Rio de Janeiro", "Brasília"],
@@ -360,11 +361,13 @@
             "Australia": ["Sydney", "Melbourne", "Brisbane"],
             "Italy": ["Rome", "Milan", "Naples"],
             "Spain": ["Madrid", "Barcelona", "Valencia"],
-            "Qatar": ["Doha", "Al Rayyan", "Al Wakrah"]
+            "Qatar": ["Doha", "Al Rayyan", "Duhail"],
+            "United States": ["New York", "Los Angeles", "Chicago", "Houston"],
+
         };
         const languages = ["English", "Spanish", "French", "German", "Arabic"];
         const educationLevels = ["Undergraduate", "Graduate", "Research"];
-        const fields = ["Art", "Business", "Chemistry", "Computer Science", "Education", "Engineering", "Law"];
+        const fields = ["Art", "Business", "Chemistry", "Computer Science", "Education", "Engineering", "Law", "Media","Medicine", "Nursing", "Politics"];
         const needs = ["Financial Aid", "Accessibility Services", "Counseling Services", "Accommodation"];
 
         function populateDropdown(id, items, isSingleSelect = false) {

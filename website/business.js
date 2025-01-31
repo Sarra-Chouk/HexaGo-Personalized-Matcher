@@ -1,6 +1,7 @@
 const { ObjectId } = require('mongodb')
 const persistence = require('./persistence')
 const crypto = require("crypto")
+const fs = require('fs').promises;
 
 /**
  * Retrieves a user by their unique ID using the persistence layer.
@@ -417,14 +418,52 @@ async function cancelToken(key) {
     await persistence.updateSession(key, sessionData)
 }
 
+// Function to fetch recommendations, get matches for the logged-in university, and save them to the database
+async function getMatches(loggedInUniversityEmail) {
+    try {
+        const filePath = 'recommendations.json'; // Adjust the path if needed
+        const data = await fs.readFile(filePath, 'utf8');
+        const recommendations = JSON.parse(data);
+
+        // Check if the logged-in university exists in the recommendations
+        const universityMatches = Object.values(recommendations).find(
+            uni => uni.university_email === loggedInUniversityEmail
+        );
+
+        if (universityMatches) {
+            // Format the matches: student email and similarity score rounded to 2 decimals
+            const matches = universityMatches.students.map(student => ({
+                student_email: student.student_email,
+                similarity_score: parseFloat(student.similarity_score.toFixed(2)) // Round to 2 decimals
+            }));
+
+            // Save the matches to the database under the 'matches' attribute
+            await persistence.updateUserField(loggedInUniversityEmail, { matches: matches });
+
+            console.log('Matches saved to the database:', matches);
+            return matches; // Optionally return the matches if needed
+        } else {
+            console.log('No matches found for this university.');
+            return null; // No matches found for this university
+        }
+    } catch (error) {
+        console.error('Error fetching or processing recommendations:', error);
+        return null;
+    }
+}
+
+
+
+
 
 module.exports = {
-    getUserById, getUserByEmail, getUserByType,
-    validateEmail, checkEmailExists, validatePassword, validateUsername,
-    createUser,
-    checkLogin,
-    startSession, getSession, deleteSession,
-    storeResetKey, getUserByResetKey, sendPasswordResetEmail, resetPassword, updatePassword,
-    getProfile,
-    generateFormToken, cancelToken,
-}
+        getUserById, getUserByEmail, getUserByType,
+        validateEmail, checkEmailExists, validatePassword, validateUsername,
+        createUser,
+        checkLogin,
+        startSession, getSession, deleteSession,
+        storeResetKey, getUserByResetKey, sendPasswordResetEmail, resetPassword, updatePassword,
+        getProfile,
+        generateFormToken, cancelToken,
+        getMatches
+    }

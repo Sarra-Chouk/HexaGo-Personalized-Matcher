@@ -505,6 +505,40 @@ app.get("/profile", attachSessionData, async (req, res) => {
     }
 });
 
+/**
+ * Route handler for the "/myMatches" page.
+ * Fetches and renders the matches with the user's data, including matching students.
+ * Requires session data, validated by the `attachSessionData` middleware.
+ * 
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {string} req.userId - The ID of the currently logged-in user, extracted from session data.
+ * 
+ * @throws {Error} If any error occurs while fetching user data or matching students.
+ * 
+ * @returns {void} Renders the "myMatches" view with user and matching student data.
+ */
+app.get("/myMatches", attachSessionData, async (req, res) => {
+    try {
+        const userId = req.userId;
+        const user = await business.getUserById(userId); // Fetch the logged-in user's data
+
+        // Check if the user is a university
+        if (user.accountType !== "University") {
+            return res.redirect("/dashboard?message=" + encodeURIComponent("This page is only accessible to universities."));
+        }
+
+        const matches = await business.getMatches(user.email) || []
+        
+
+        // Render the "myMatches" view with the matches
+        res.render("myMatches", { user, matches });
+    } catch (error) {
+        console.error("Error rendering myMatches:", error.message);
+        res.status(500).send("An error occurred while loading your matches.");
+    }
+});
+
 
 /**
  * Route handler for the "/logout" page.

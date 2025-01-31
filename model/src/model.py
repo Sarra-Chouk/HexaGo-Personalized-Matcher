@@ -45,37 +45,38 @@ def build_faiss_index(embeddings):
     return index
 
 
-def recommend_universities(student_embeddings, university_index, 
-                           universities_df, students_df, top_k=5):
+def recommend_universities(student_embeddings, university_index, universities_df, students_df, top_k=5):
     """
-    Recommends universities for each student based on cosine similarity of
-    their features.
+    Recommends universities for each student based on cosine similarity of their features.
     Args:
         student_embeddings (numpy.ndarray): The embeddings of students.
-        university_index (faiss.IndexFlatIP): The FAISS index for university
-        embeddings.
+        university_index (faiss.IndexFlatIP): The FAISS index for university embeddings.
         universities_df (DataFrame): The universities dataset.
         students_df (DataFrame): The students dataset.
-        top_k (int, optional): The number of top recommended universities to
-        return for each student. Default is 5.
+        top_k (int, optional): The number of top recommended universities to return for each student. Default is 5.
     Returns:
-        dict: A dictionary where keys are university names, and values are
-        lists of student recommendations.
+        dict: A dictionary where keys are university names, and values are dictionaries containing university email
+              and a list of student recommendations.
     """
     recommendations = {}
-    for student_embedding, (_, student) in zip(student_embeddings, students_df
-                                               .iterrows()):
-        distances, indices = university_index.search(np.array([
-            student_embedding]), top_k)
+    for student_embedding, (_, student) in zip(student_embeddings, students_df.iterrows()):
+        distances, indices = university_index.search(np.array([student_embedding]), top_k)
         for dist, idx in zip(distances[0], indices[0]):
             university_name = universities_df.iloc[idx]['Name']
+            university_email = universities_df.iloc[idx]['Email']
             university_country = universities_df.iloc[idx]['Country']
             if university_country == student['Country of Residence']:
                 if university_name not in recommendations:
-                    recommendations[university_name] = []
-                recommendations[university_name].append({
-                        "student_name": student['First Name'] + " " + student['Last Name'],
-                        "similarity_score": dist
-                    })
-
+                    recommendations[university_name] = {
+                        "university_email": university_email,
+                        "students": []
+                    }
+                recommendations[university_name]["students"].append({
+                    "student_name": student['Name'],
+                    "student_email": student['Email'], 
+                    "similarity_score": float(dist)  # Convert float32 to float
+                })
+    
     return recommendations
+
+

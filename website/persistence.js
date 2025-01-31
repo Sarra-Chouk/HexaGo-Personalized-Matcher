@@ -22,7 +22,7 @@ function logError(message, error) {
 }
 
 
-const { MongoClient, ObjectId } = require('mongodb')
+const { MongoClient, ObjectId, DBRef } = require('mongodb')
 let client = undefined
 let db = undefined
 let users = undefined
