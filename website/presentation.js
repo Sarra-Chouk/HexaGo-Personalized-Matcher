@@ -9,7 +9,7 @@ let app = express()
 
 const hbs = handlebars.create({
     helpers: {
-        eq: (arg1, arg2) => arg1 === arg2, // Add this helper
+        eq: (arg1, arg2) => arg1 === arg2, 
         ifEquals: (arg1, arg2, options) => {
             return (arg1 === arg2) ? options.fn(this) : options.inverse(this);
         },
@@ -412,7 +412,7 @@ app.post("/login", async (req, res) => {
 
         const sessionKey = await business.startSession(loginResult.userId);
         res.cookie("sessionKey", sessionKey, { httpOnly: true });
-        res.redirect("/dashboard"); // Redirect to the dashboard
+        res.redirect("/dashboard"); 
     } catch (error) {
         console.error("Login error:", error.message);
         res.redirect("/login?message=" + encodeURIComponent("An unexpected error occurred. Please try again."));
@@ -423,10 +423,10 @@ app.post("/login", async (req, res) => {
 app.get("/dashboard", attachSessionData, async (req, res) => {
     try {
         const userId = req.userId;
-        const user = await business.getUserById(userId); // Fetch user data
-        const accountType = user.accountType; // Get account type
+        const user = await business.getUserById(userId); 
+        const accountType = user.accountType; 
 
-        res.render("dashboard", { accountType, user }); // Pass account type to the template
+        res.render("dashboard", { accountType, user }); 
     } catch (error) {
         console.error("Error rendering dashboard:", error.message);
         res.status(500).send("An error occurred while loading the dashboard.");
@@ -491,7 +491,6 @@ app.get("/profile", attachSessionData, async (req, res) => {
         const userId = req.userId;
         const profile = await business.getProfile(userId);
 
-        // Render the appropriate profile template based on account type
         if (profile.accountType === "Student") {
             res.render("studentProfile", { profile });
         } else if (profile.accountType === "University") {
@@ -504,6 +503,8 @@ app.get("/profile", attachSessionData, async (req, res) => {
         res.status(500).send("An error occurred while loading your profile.");
     }
 });
+
+
 
 /**
  * Route handler for the "/myMatches" page.
@@ -521,23 +522,85 @@ app.get("/profile", attachSessionData, async (req, res) => {
 app.get("/myMatches", attachSessionData, async (req, res) => {
     try {
         const userId = req.userId;
-        const user = await business.getUserById(userId); // Fetch the logged-in user's data
+        const user = await business.getUserById(userId); 
 
-        // Check if the user is a university
         if (user.accountType !== "University") {
             return res.redirect("/dashboard?message=" + encodeURIComponent("This page is only accessible to universities."));
         }
 
         const matches = await business.getMatches(user.email) || []
         
-
-        // Render the "myMatches" view with the matches
         res.render("myMatches", { user, matches });
     } catch (error) {
         console.error("Error rendering myMatches:", error.message);
         res.status(500).send("An error occurred while loading your matches.");
     }
 });
+
+app.get("/student-profile/:studentEmail", attachSessionData, async (req, res) => {
+    try {
+        const studentEmail = req.params.studentEmail;
+        const student = await business.getUserByEmail(studentEmail);
+
+        if (!student) {
+            return res.status(404).send("Student not found.");
+        }
+
+        res.render("studentProfile", { profile: student });
+    } catch (error) {
+        console.error("Error rendering student profile:", error.message);
+        res.status(500).send("An error occurred while loading the student profile.");
+    }
+});
+
+
+app.post("/accept-match", attachSessionData, async (req, res) => {
+    try {
+        const { studentEmail } = req.body;
+
+        if (!studentEmail) {
+            console.error("Error: studentEmail is missing.");
+            return res.redirect("/myMatches?message=Student email is missing.&type=error");
+        }
+
+        console.log("Received studentEmail:", studentEmail);
+
+        const userId = req.userId;
+
+        const university = await business.getUserById(userId);
+        if (!university) {
+            console.log("University not found.");
+            return res.status(404).send("University not found.");
+        }
+
+        const student = await business.getUserByEmail(studentEmail);
+        if (!student) {
+            console.log("Student not found.");
+            return res.status(404).send("Student not found.");
+        }
+
+        console.log(`Before update: ${JSON.stringify(student.matches || "No matches attribute")}`);
+
+        const updatedMatches = student.matches ? [...student.matches] : [];
+
+        if (updatedMatches.includes(university.email)) {
+            console.log("Student is already matched with this university.");
+            return res.redirect("/myMatches?message=This student has already been accepted.&type=info");
+        }
+
+        updatedMatches.push(university.email);
+
+        await persistence.updateUserField(studentEmail, { matches: updatedMatches });
+
+        console.log("Match added successfully.");
+        res.redirect("/myMatches?message=You have successfully accepted the match with this student.&type=success");
+
+    } catch (error) {
+        console.error("Error accepting student:", error.message);
+        res.redirect("/myMatches?message=An error occurred while accepting the student.&type=error");
+    }
+});
+
 
 
 /**
