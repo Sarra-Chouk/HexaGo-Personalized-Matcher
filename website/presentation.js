@@ -9,7 +9,7 @@ let app = express()
 
 const hbs = handlebars.create({
     helpers: {
-        eq: (arg1, arg2) => arg1 === arg2, 
+        eq: (arg1, arg2) => arg1 === arg2, // Add this helper
         ifEquals: (arg1, arg2, options) => {
             return (arg1 === arg2) ? options.fn(this) : options.inverse(this);
         },
@@ -20,7 +20,6 @@ const hbs = handlebars.create({
         increment: function (value) {
             return value + 1;
         },
-        // New helper to check if userEmail is in student's matches array
         notMatchedWithUni: function (studentMatches, userEmail, options) {
             if (!studentMatches || !Array.isArray(studentMatches)) return options.fn(this);
             return studentMatches.includes(userEmail) ? options.inverse(this) : options.fn(this);
@@ -529,6 +528,30 @@ app.get("/profile", attachSessionData, async (req, res) => {
 });
 
 
+app.get("/myUnis", attachSessionData, async (req, res) => {
+    try {
+        const userId = req.userId;
+        const user = await business.getUserById(userId);
+
+        if (user.accountType === "Student") {
+            const universityEmails = user.matches || [];
+            const universities = await Promise.all(
+                universityEmails.map(async (email) => {
+                    const university = await business.getUserByEmail(email);
+                    return { name: university.username }; 
+                })
+            );
+
+            res.render("myUnis", { universities });
+        } else {
+            throw new Error("Invalid account type.");
+        }
+    } catch (error) {
+        console.error("Error rendering myUnis:", error.message);
+        res.status(500).send("An error occurred while loading your universities.");
+    }
+});
+
 
 /**
  * Route handler for the "/myMatches" page.
@@ -546,20 +569,21 @@ app.get("/profile", attachSessionData, async (req, res) => {
 app.get("/myMatches", attachSessionData, async (req, res) => {
     try {
         const userId = req.userId;
-        console.log("UserID: " + userId)
-        const user = await business.getUserById(userId); 
+        const user = await business.getUserById(userId);
 
-        userEmail = user.email
-        if (user.accountType !== "University") {
-            return res.redirect("/dashboard?message=" + encodeURIComponent("This page is only accessible to universities."));
+        if (user.accountType === "University") {
+            // University view: Show matched students
+            const userEmail = user.email;
+            let matches = await business.getMatches(userEmail) || [];
+            matches = matches.filter(student => !(student.matches || []).includes(userEmail));
+            res.render("myMatches", { userEmail, matches });
+        } else if (user.accountType === "Student") {
+            // Student view: Show universities that accepted them
+            const universities = user.matches || [];
+            res.render("myUnis", { universities });
+        } else {
+            throw new Error("Invalid account type.");
         }
-
-        let matches = await business.getMatches(userEmail) || []
-
-        // Filter out students who have already matched with this university
-        matches = matches.filter(student => !(student.matches || []).includes(userEmail));
-        
-        res.render("myMatches", { userEmail, matches });
     } catch (error) {
         console.error("Error rendering myMatches:", error.message);
         res.status(500).send("An error occurred while loading your matches.");

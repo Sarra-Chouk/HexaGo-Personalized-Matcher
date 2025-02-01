@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Matches</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(135deg, rgb(202, 160, 247), rgb(151, 185, 243));
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: auto;
+        }
+
+        .matches-container {
+            background-color: #fff;
+            color: #333;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 7%;
+            margin-bottom: 9%;
+        }
+
+        .matches-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: rgb(61, 12, 114);
+        }
+
+        .match-item {
+            background: rgb(246, 236, 255);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .match-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .match-details p {
+            margin: 0;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .match-details strong {
+            color: #333;
+        }
+
+        .no-matches {
+            text-align: center;
+            color: #777;
+            font-size: 18px;
+        }
+
+        .back-link {
+            display: block;
+            text-align: left; 
+            margin-top: 20px;
+            color: #6a11cb;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="matches-container">
+        <h1 class="matches-title">Universities That Accepted You</h1>
+        {{#if universities.length}}
+            {{#each universities}}
+                <div class="match-item">
+                    <div class="match-details">
+                        <p><strong>University Name:</strong> {{this.name}}</p> 
+                    </div>
+                </div>
+            {{/each}}
+        {{else}}
+            <p class="no-matches">No universities have accepted you yet.</p>
+        {{/if}}
+        <a href="/dashboard" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+</body>
+
+</html>
