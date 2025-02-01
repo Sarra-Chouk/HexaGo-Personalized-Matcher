@@ -386,6 +386,13 @@ app.post("/update-password", async (req, res) => {
     } 
 })
 
+app.get("/universities", async (req, res) => {
+    const universities = await business.getAllUniversities()
+
+    res.render('universities', { universities})
+
+
+})
 
 /**
  * Route handler for the "/login" page.
