@@ -77,7 +77,7 @@
         }
 
         .custom-multiselect .selected-item {
-            background: #6a11cb;
+            background:rgb(92, 59, 154);
             color: white;
             padding: 5px 10px;
             border-radius: 5px;
@@ -109,7 +109,7 @@
         }
 
         .dropdown-options div:hover {
-            background:rgb(95, 42, 152);
+            background:rgb(92, 59, 154);
             color: white;
             
         }
@@ -122,17 +122,14 @@
             padding: 8px;
         }
 
-        .btn btn-primary {
-            max-width: 300px;
-            
-        }
-
         .add-field-button {
             cursor: pointer;
             color:rgb(11, 50, 91);
-            margin-top: 10px;
-            padding-left: 30%;
-
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
 
         #fieldsContainer {
@@ -262,6 +259,13 @@
                 <div class="dropdown-options" id="servicesOptions"></div>
                 <input type="hidden" id="servicesHidden" name="services">
                           
+            </div>
+
+            <!-- University URL -->
+            <div class="mb-2">
+                <label for="universityURL" class="form-label">University URL <span style="color: red;">*</span></label>
+                <input type="text" class="form-control" id="universityURL" name="universityURL"
+                    placeholder="Link to the university's website." required />
             </div>
 
             <div class="mb-4" id="fieldsContainer">
@@ -505,7 +509,7 @@
                 "Qatar": ["Duhail", "Al Rayyan", "Al Wakrah"]
             };
             const programs = ["Undergraduate", "Graduate", "Research"];
-            const fields = ["Art", "Business", "Chemistry", "Computer Science", "Education", "Engineering", "Law"];
+            const fields = ["Art", "Business", "Chemistry", "Computer Science", "Medicine","Education", "Engineering", "Law", "Nursing"];
             const languages = ["English", "Spanish", "French", "German", "Arabic"];
             const services = ["Financial Aid", "Accessibility Services", "Counseling Services", "Accommodation"];
 

@@ -23,6 +23,8 @@
 
         .header {
             margin-top: 0px;
+            background-color:rgb(92, 59, 154);
+
         }
 
         .dashboard-container {
@@ -93,12 +95,72 @@
         }
 
         .dashboard-card a:hover {
-            background-color: #4d67ff;
+            background-color:rgb(145, 123, 219);
         }
+
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgb(92, 59, 154);
+            padding: 10px 20px;
+            box-shadow: 0px 2px 5px rgba(199, 208, 255, 0.1);
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header a {
+            text-decoration: none;
+            color: rgb(245, 244, 249);
+            font-weight: bold;
+        }
+
+        .header a:hover {
+            text-decoration: underline;
+        }
+
+        .header .nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header .nav .profile-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(106, 17, 203, 0.8);
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .header .nav .profile-icon:hover {
+            background-color: rgba(77, 103, 255, 0.8);
+        }
+
     </style>
 </head>
 
 <body>
+    <header class="header">
+        <div>
+            <a href="/">
+                <h1>HexaGo</h1>
+            </a>
+        </div>
+        <div class="nav">
+            <a href="/profile" class="profile-icon">
+                <i class="bi bi-person"></i> 
+            </a>
+        </div>
+    </header>
     <div class="dashboard-container">
         <h1 class="dashboard-title">Welcome to Your Dashboard, {{user.username}}</h1>
         <div class="dashboard-menu">
@@ -122,12 +184,12 @@
                 <a href="/myMatches">View Matches</a>
             </div>
 
-            <!-- Logout Card -->
+            <!-- University List Card -->
             <div class="dashboard-card">
                 <i class="fas fa-sign-out-alt"></i>
-                <h3>Logout</h3>
-                <p>Log out of your account.</p>
-                <a href="/logout">Logout</a>
+                <h3>Universities</h3>
+                <p>List all the universities.</p>
+                <a href="/universities">Logout</a>
             </div>
         </div>
     </div>

@@ -19,8 +19,12 @@ const hbs = handlebars.create({
         },
         increment: function (value) {
             return value + 1;
+        },
+        // New helper to check if userEmail is in student's matches array
+        notMatchedWithUni: function (studentMatches, userEmail, options) {
+            if (!studentMatches || !Array.isArray(studentMatches)) return options.fn(this);
+            return studentMatches.includes(userEmail) ? options.inverse(this) : options.fn(this);
         }
-
     }
 });
 
@@ -35,14 +39,25 @@ app.use(express.static(__dirname + "/static"));
 
 
 /**
- * Route handler for the "/" page.
- * Redirects to the the "index" route.
- * 
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
+ * Route handler for the root URL, checks session key and redirects to dashboard if logged in.
+ *
+ * @async
+ * @param {Object} req - The request object containing cookies and query parameters.
+ * @param {Object} res - The response object to render login page or redirect.
+ * @returns {Promise<void>} Renders the index page with optional message or redirects to dashboaed page if session is valid.
  */
-app.get("/", (req, res) => {
-    res.redirect("/index")
+app.get('/', async (req, res) => {
+    const sessionKey = req.cookies.sessionKey
+    if (sessionKey) {
+        const session = await business.getSession(sessionKey)
+        console.log(session)
+        if (session) {
+            return res.redirect('/dashboard')
+        }
+    }
+
+    res.redirect("/index");
+    return
 })
 
 
@@ -531,15 +546,20 @@ app.get("/profile", attachSessionData, async (req, res) => {
 app.get("/myMatches", attachSessionData, async (req, res) => {
     try {
         const userId = req.userId;
+        console.log("UserID: " + userId)
         const user = await business.getUserById(userId); 
 
+        userEmail = user.email
         if (user.accountType !== "University") {
             return res.redirect("/dashboard?message=" + encodeURIComponent("This page is only accessible to universities."));
         }
 
-        const matches = await business.getMatches(user.email) || []
+        let matches = await business.getMatches(userEmail) || []
+
+        // Filter out students who have already matched with this university
+        matches = matches.filter(student => !(student.matches || []).includes(userEmail));
         
-        res.render("myMatches", { user, matches });
+        res.render("myMatches", { userEmail, matches });
     } catch (error) {
         console.error("Error rendering myMatches:", error.message);
         res.status(500).send("An error occurred while loading your matches.");
@@ -550,6 +570,7 @@ app.get("/student-profile/:studentEmail", attachSessionData, async (req, res) =>
     try {
         const studentEmail = req.params.studentEmail;
         const student = await business.getUserByEmail(studentEmail);
+        console.log(student)
 
         if (!student) {
             return res.status(404).send("Student not found.");
@@ -565,17 +586,18 @@ app.get("/student-profile/:studentEmail", attachSessionData, async (req, res) =>
 
 app.post("/accept-match", attachSessionData, async (req, res) => {
     try {
+        console.log(req.body)
         const { studentEmail } = req.body;
+        console.log("Received studentEmail:", studentEmail);
 
         if (!studentEmail) {
             console.error("Error: studentEmail is missing.");
             return res.redirect("/myMatches?message=Student email is missing.&type=error");
         }
 
-        console.log("Received studentEmail:", studentEmail);
-
         const userId = req.userId;
 
+        console.log("userID: " + userId)
         const university = await business.getUserById(userId);
         if (!university) {
             console.log("University not found.");
@@ -599,7 +621,7 @@ app.post("/accept-match", attachSessionData, async (req, res) => {
 
         updatedMatches.push(university.email);
 
-        await persistence.updateUserField(studentEmail, { matches: updatedMatches });
+        await business.updateUserField(studentEmail, { matches: updatedMatches });
 
         console.log("Match added successfully.");
         res.redirect("/myMatches?message=You have successfully accepted the match with this student.&type=success");

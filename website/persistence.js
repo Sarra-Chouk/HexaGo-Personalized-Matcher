@@ -42,7 +42,7 @@ let sessions = undefined
 async function connectDatabase() {
     if (!client) {
         try {
-            client = new MongoClient('mongodb+srv://60300372:INFS3201@infs3201.9arv1.mongodb.net/')
+            client = new MongoClient('mongodb+srv://60302181:12class34@cluster0.yrpo2.mongodb.net/')
             await client.connect()
             db = client.db("HexaGo")
             users = db.collection("users")

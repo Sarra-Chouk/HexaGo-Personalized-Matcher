@@ -225,11 +225,11 @@
 
                 <!-- Completed Education Level -->
                 <div class="mb-4 dropdown-container">
-                    <label for="education" class="form-label">Desired Education Level <span
+                    <label for="completedEducation" class="form-label">Completed Education Level <span
                             style="color: red;">*</span></label>
-                    <div class="custom-multiselect" id="education" onclick="toggleDropdown('educationOptions')"></div>
-                    <div class="dropdown-options" id="educationOptions"></div>
-                    <input type="hidden" id="educationHidden" name="education">
+                    <div class="custom-multiselect" id="completedEducation" onclick="toggleDropdown('completedEducationOptions')"></div>
+                    <div class="dropdown-options" id="completedEducationOptions"></div>
+                    <input type="hidden" id="completedEducationHidden" name="completedEducation">
                 </div>
 
                 <!-- Desired Education Level -->
@@ -391,7 +391,8 @@
         };
         const languages = ["English", "Spanish", "French", "German", "Arabic"];
         const desiredEducationLevels = ["Undergraduate", "Graduate", "Research"];
-        const fields = ["Art", "Business", "Chemistry", "Computer Science", "Education", "Engineering", "Law"];
+        const completedEducationLevels = ["High School",  "Undergraduate", "Graduate"]
+        const fields = ["Art", "Business", "Chemistry", "Computer Science", "Medicine","Education", "Engineering", "Law", "Nursing"];
         const needs = ["Financial Aid", "Accessibility Services", "Counseling Services", "Accommodation"];
 
         function populateDropdown(id, items, isSingleSelect = false) {
@@ -419,7 +420,8 @@
         populateDropdown("nationalityOptions", nationalities, true);
         populateDropdown("countryOptions", countries, true);
         populateDropdown("languagesOptions", languages);
-        populateDropdown("educationOptions", educationLevels, true);
+        populateDropdown("desiredEducationOptions", desiredEducationLevels, true);
+        populateDropdown("completedEducationOptions", completedEducationLevels, true);
         populateDropdown("fieldsOptions", fields, true);    
         populateDropdown("needsOptions", needs);
     </script>

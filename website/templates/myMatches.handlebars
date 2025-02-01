@@ -18,7 +18,8 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 1200px;
-            margin-bottom: 6%;
+            margin-top: -40px;
+            margin-bottom: 2%;
             position: relative;
         }
 
@@ -47,7 +48,7 @@
 
         .match-details p {
             margin: 0;
-            font-size: 16px;
+            font-size: 1.2rem;
             color: #555;
         }
 
@@ -94,7 +95,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: rgb(189, 177, 250);
+            background-color:rgb(92, 59, 154);
             padding: 10px 20px;
             box-shadow: 0px 2px 5px rgba(199, 208, 255, 0.1);
             position: fixed;
@@ -104,7 +105,7 @@
 
         .header a {
             text-decoration: none;
-            color: rgb(31, 17, 87);
+            color: rgb(245, 244, 249);
             font-weight: bold;
         }
 
@@ -116,6 +117,14 @@
             display: flex;
             align-items: center;
             gap: 20px;
+            
+        }
+
+        .header .nav a {
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: rgb(245, 244, 249);
+            font-weight: bold;
         }
 
         .header .nav .profile-icon {
@@ -124,7 +133,7 @@
             justify-content: center;
             width: 40px;
             height: 40px;
-            background-color: rgba(106, 17, 203, 0.8);
+            background-color: rgba(192, 156, 255, 0.8);
             border-radius: 50%;
             color: white;
             font-size: 24px;
@@ -149,11 +158,12 @@
         .back-link {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 18px;
             text-decoration: none;
-            color: #6a11cb;
-            font-size: 16px;
+            color:rgb(92, 59, 154);;
+            font-size: 1.2rem;
             position: absolute;
+            margin-top: 5px;
             bottom: 10px;
             left: 20px;
             transition: color 0.3s ease;
@@ -169,7 +179,7 @@
 <body>
     <header class="header">
         <div>
-            <a href="/index">
+            <a href="/">
                 <h1>HexaGo</h1>
             </a>
         </div>
@@ -200,6 +210,7 @@
                         <div class="actions">
                             <form action="/accept-match" method="POST" style="display: inline;">
                                 <input type="hidden" name="studentEmail" value="{{this.student_email}}">
+                                <input type="hidden" name="uniEmail" value="{{userEmail}}">
                                 <button type="submit" class="accept">Accept</button>
                             </form>
                             <a href="/student-profile/{{this.student_email}}">
