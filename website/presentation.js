@@ -451,10 +451,11 @@ app.get("/dashboard", attachSessionData, async (req, res) => {
         const userId = req.userId;
         const user = await business.getUserById(userId); 
         const accountType = user.accountType; 
+        console.log("Dashboard User: "+ user.city + user.country + user.languages)
 
         res.render("dashboard", { accountType, user }); 
     } catch (error) {
-        console.error("Error rendering dashboard:", error.message);
+        console.error("Error rendering dashboard:", error.message); 
         res.status(500).send("An error occurred while loading the dashboard.");
     }
 });
@@ -575,15 +576,16 @@ app.get("/myUnis", attachSessionData, async (req, res) => {
  */
 app.get("/myMatches", attachSessionData, async (req, res) => {
     try {
-        const userId = req.userId;
-        const user = await business.getUserById(userId);
+        const userId = req.userId
+        const user = await business.getUserById(userId)
+        const message = req.query.message
 
         if (user.accountType === "University") {
             // University view: Show matched students
             const userEmail = user.email;
             let matches = await business.getMatches(userEmail) || [];
             matches = matches.filter(student => !(student.matches || []).includes(userEmail));
-            res.render("myMatches", { userEmail, matches });
+            res.render("myMatches", { userEmail, matches, message });
         } else if (user.accountType === "Student") {
             // Student view: Show universities that accepted them
             const universities = user.matches || [];
