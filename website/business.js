@@ -479,6 +479,19 @@ async function getMatches(loggedInUniversityEmail) {
 }
 
 
+/**
+ * Retrieves a user from the database by their unique ID.
+ *
+ * @async
+ * @function getAllUniversities
+ * @returns {Promise<[Object]|null>} The universities if found, otherwise `null`.
+ * @throws Will log an error if the operation fails.
+ */
+async function getAllUniversities() {
+    return await persistence.getAllUniversities();
+}
+
+
 module.exports = {
         getUserById, getUserByEmail, getUserByType,
         validateEmail, checkEmailExists, validatePassword, validateUsername,
@@ -489,5 +502,6 @@ module.exports = {
         updateUserField,
         getProfile,
         generateFormToken, cancelToken,
-        getMatches
+        getMatches,
+        getAllUniversities
     }

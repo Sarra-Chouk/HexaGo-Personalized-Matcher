@@ -416,6 +416,29 @@ async function updateSession(key, data) {
     }
 }
 
+/**
+ * Retrieves a user from the database by their unique ID.
+ *
+ * @async
+ * @function getAllUniversities
+ * @returns {Promise<[Object]|null>} The universities if found, otherwise `null`.
+ * @throws Will log an error if the operation fails.
+ */
+async function getAllUniversities() {
+    try {
+        await connectDatabase()
+        universities = await users.find({accountType: "University"}).toArray();
+        if (universities) {
+            logInfo(`Fetched all universities.`)
+        } else {
+            logInfo(`Universities not found.`)
+        }
+        return universities
+    } catch (error) {
+        logError("Error fetching universities", error)
+    }
+}
+
 
 module.exports = {
     updateUserField,
@@ -424,5 +447,5 @@ module.exports = {
     storeKey, getUserByKey, clearKey,
     updatePassword,
     saveSession, getSession, deleteSession, updateSession,
-
+    getAllUniversities,
 }
